@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" />
+		<meta content="yes" name="apple-mobile-web-app-capable" />
+		<meta content="black" name="apple-mobile-web-app-status-bar-style" />
+		<meta content="telephone=no" name="format-detection" />
+		<meta content="email=no" name="format-detection" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<title>我的认证</title>
+		<link rel="stylesheet" href="../libs/css/base.css" />
+		<script type="text/javascript" src="../libs/js/rem.js"></script>
+		<style>
+			html {
+        background: #635069;
+        color: #fff;
+      }
+
+      .box {
+        font-family: 'PingFangSC-Regular';
+        padding-top: 0.2rem;
+        padding-left: 3%;
+        font-size: 0.32rem;
+        padding-bottom: 0.2rem;
+      }
+
+      .box li {
+        padding: 0.2rem 0;
+        padding-right: 0.2rem;
+        line-height: 0.8rem;
+        overflow: hidden;
+        border-bottom: 1px solid #695f6a;
+      }
+
+      .fl {
+        float: left;
+      }
+
+      .fr {
+        float: right;
+      }
+
+      .box .text {
+        width: 1.5rem;
+        height: 0.5rem;
+        margin-right: 0.4rem;
+      }
+
+      .value {
+        color: #898989;
+        font-size: 0.28rem;
+      }
+
+      .save-btn {
+        display: block;
+        width: 5.5rem;
+        height: 1rem;
+        background: #b83af3;
+        background: linear-gradient(to right, #6950fb, #b83af3);
+        outline: none;
+        border: none;
+        color: #fff;
+        font-size: 0.3rem;
+        margin: 0.8rem auto 0;
+        border-radius: 0.08rem;
+      }
+
+      .input {
+        min-width: 4rem;
+        display: inline-block;
+        height: 0.6rem;
+        background: transparent;
+        border: none;
+        outline: none;
+        color: #fff;
+      }
+
+      .select {
+        width: 5rem;
+        background: transparent;
+        border: none;
+        outline: none;
+        color: #898989;
+      }
+
+      .file {
+        min-height: 1.8rem;
+        position: relative;
+      }
+
+      .file-img {
+        width: 2rem;
+      }
+      .textarea {
+        width: 100%;
+        background: transparent;
+        border: none;
+        outline: none;
+        color: #fff;
+      }
+      .file-input {
+        width: 2rem;
+        height: 2rem;
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        z-index: 1000;
+      }
+	  .float{
+	  		  width: 2rem;
+	  		  height: 1.7318rem;
+			  display: inline-block;
+	  }
+	  .result{
+		  width: 100%;
+		  height: 100%;
+		  text-align: center;
+	  }
+	  .result img{
+		  width: 1rem;
+		  height: 1.7318rem;
+	  }
+	  .da{
+	  		  width: 100%;
+	  		  /* height: 1.7318rem; */
+	  		  display: flex;
+			  flex-wrap: wrap;
+			  
+	  }
+	  .da img{
+	  		  width: 2rem;
+	  		  height: 1.7318rem;
+	  		  display: block;
+	  		  object-fit: cover;
+	  		  margin-left: 0.3rem;
+			  margin-top: 0.3rem;
+	  }
+    </style>
+	</head>
+
+	<body>
+		<div class="box login_box">
+			<ul>
+				<li>
+					<p class="fl text">邀请码</p>
+					<input type="text" placeholder="请输入邀请码（非必填项）" class="input" id="yqma" />
+				</li>
+				<li>
+					<p class="fl text">姓名</p>
+					<input type="text" placeholder="请输入您的姓名" class="input" id="name" />
+				</li>
+				<li class="ping_tai">
+					<p class="fl text">所属平台</p>
+					<select name="请选择所属平台" class="select" id="pingt">
+						<option value="请选择所属平台">请选择所属平台</option>
+					</select>
+				</li>
+				<li class="container">
+					<!-- <p>上传形象照片</p>
+					<div class="file">
+						<img src="../assets/jtw/file-img.png" alt="" class="file-img" id="pic" />
+						<input id="upload" name="file" accept="image/*" type="file" style="display: none" multiple>
+						<span class="value">（最多可上传五张）</span>
+					</div> -->
+					<label style="display: block;">上传形象照片</label>
+					<!-- <button id="select"> -->
+					<div style="display: flex;align-items: center;">
+						<button class="no_click" style="background: none;border: none;" id="pic">
+							<img src="../assets/jtw/file-img.png" alt="" class="file-img" />
+						</button>
+						<span>（最多上传五张图片）</span>
+					</div>
+					<!-- </button> -->
+					<!-- <button id="add">(追加)图片</button> -->
+					<div class="da"></div>
+					<input id="upload" name="file" accept="image/*" type="file" style="display: none">
+					<!--用input标签并选择type=file，记得带上multiple，不然就只能单选图片了-->
+					<!-- <button id="submit">提交</button> -->
+				</li>
+				<li>
+					<p>文字介绍</p>
+					<textarea name="" cols="30" rows="4" placeholder="请输入您想说的话…" class="textarea" id="jieshao"></textarea>
+				</li>
+			</ul>
+			<button class="save-btn">提交认证</button>
+			<div class="tan"></div>
+
+		</div>
+	</body>
+	<script src="../libs/js/jquery.min.js"></script>
+	<script type="text/javascript">
+		var browserRule = /^.*((iPhone)|(iPad)|(Safari))+.*$/;
+		if (browserRule.test(navigator.userAgent)) {
+			window.addEventListener('pageshow', function(e) {
+				if (e.persisted) {
+					window.location.reload()
+				}
+			})
+		}
+		$('input').blur(function() {
+			window.scrollTo(0, document.body.scrollTop + 1);
+			document.body.scrollTop >= 1 && window.scrollTo(0, document.body.scrollTop - 1);
+		})
+		$('textarea').blur(function() {
+			window.scrollTo(0, document.body.scrollTop + 1);
+			document.body.scrollTop >= 1 && window.scrollTo(0, document.body.scrollTop - 1);
+		})
+		var yuming = localStorage.yuming
+		var objUrl = ''
+		var arr_arr = []
+		$(function() {
+			$('input').blur(function() {
+				// console.log(111)
+				// alert(2222)
+				window.scrollTo(0, document.body.scrollTop + 1);
+				document.body.scrollTop >= 1 && window.scrollTo(0, document.body.scrollTop - 1);
+			})
+			$('textarea').blur(function() {
+				// console.log(111)
+				// alert(2222)
+				window.scrollTo(0, document.body.scrollTop + 1);
+				document.body.scrollTop >= 1 && window.scrollTo(0, document.body.scrollTop - 1);
+			})
+			var input = document.getElementById("file_input");
+			var result;
+			var dataArr = []; // 储存所选图片的结果(文件名和base64数据)  
+			var fd; //FormData方式发送请求    
+			var oSelect = document.getElementById("select");
+			var oAdd = document.getElementById("add");
+			var oSubmit = document.getElementById("submit");
+			var oInput = document.getElementById("file_input");
+			$("#pic").click(function() {
+				$("#upload").click(); //隐藏了input:file样式后，点击头像就可以本地上传
+				$("#upload").on("change", function() {
+					objUrl = getObjectURL(this.files[0]); //获取图片的路径，该路径不是图片在本地的路径
+
+					if (objUrl) {
+						// $("#pic").attr("src", objUrl); //将图片路径存入src中，显示出图片
+						arr_arr.push(objUrl)
+						// console.log(arr_arr.length)
+						if (arr_arr.length < 15) {
+							$('.tan').html('上传中');
+							$('.tan').css('display', 'block');
+							$('.save-btn').attr('disabled', 'disabled')
+							$('.no_click').attr('disabled', 'disabled')
+							upimg();
+						} else {
+							$('.tan').html('只能上传五张');
+							$('.tan').css('display', 'block');
+							$('.tan').fadeOut(2000);
+						}
+
+						if (arr_arr.length == 1) {
+							$('.da').append('<img src="' + arr_arr[0] + '" alt="" class="photo" />')
+						} else if (arr_arr.length == 3) {
+							$('.da').append('<img src="' + arr_arr[1] + '" alt="" class="photo" />')
+						} else if (arr_arr.length == 6) {
+							$('.da').append('<img src="' + arr_arr[4] + '" alt="" class="photo" />')
+						} else if (arr_arr.length == 10) {
+							$('.da').append('<img src="' + arr_arr[7] + '" alt="" class="photo" />')
+						} else if (arr_arr.length == 15) {
+							$('.da').append('<img src="' + arr_arr[11] + '" alt="" class="photo" />')
+						}
+					}
+
+
+				});
+			});
+			//获取平台
+			$.ajax({
+				url: yuming + "/api.php/interfaces/index/get_platform",
+				data: {
+
+				},
+				dataType: 'json', //服务器返回json格式数据
+				success: function(data) {
+					// console.log(data);
+					if (data.code == 1) {
+						var pick = data.data.platform
+						var picker = '';
+						$.each(pick, function(i, obj) {
+							picker += '<option value="' + obj.id + '">'
+							picker += obj.platform_name
+							picker += '</option>'
+						})
+						$('#pingt').append(picker)
+					}
+				}
+			})
+			var pingtai = ''
+			// var submita=''
+			$('#pingt').change('option', function() {
+				pingtai = $(this).val()
+				// console.log(pingtai)
+				// alert(pingtai)
+			})
+			$('.save-btn').click(function() {
+				// alert('保存成功!')
+
+				var yaoqingma = $('#yqma').val();
+				var name = $('#name').val();
+				var pingt = $('#pingt').val();
+				if (pingt == '请选择所属平台') {
+					$('.tan').html('请选择所属平台');
+					$('.tan').css('display', 'block');
+					$('.tan').fadeOut(2000);
+					return;
+				}
+				var jieshao = $('#jieshao').val();
+				$.ajax({
+					url: yuming + "/api.php/interfaces/index/my_authente",
+					data: {
+						account_id: localStorage.account_id,
+						invite_code: yaoqingma,
+						username: name,
+						platform_id: pingtai,
+						words: jieshao,
+						images: submita
+					},
+					dataType: 'json', //服务器返回json格式数据
+					success: function(data) {
+						// console.log(data);
+						// 提示框显示隐藏
+						$('.tan').html(data.msg);
+						$('.tan').css('display', 'block');
+						$('.tan').fadeOut(2000);
+						if (data.code == 1) {
+							// alert(111)
+							window.location.href = "/page/personal.html"
+							// window.history.back()
+						}
+					}
+				})
+
+			})
+		})
+		//建立一?可存取到?file的url
+		function getObjectURL(file) {
+			// console.log(file)
+			var url = null;
+			if (window.createObjectURL != undefined) { // basic
+				url = window.createObjectURL(file);
+			} else if (window.URL != undefined) { // mozilla(firefox)
+				url = window.URL.createObjectURL(file);
+			} else if (window.webkitURL != undefined) { // webkit or chrome
+				url = window.webkitURL.createObjectURL(file);
+			}
+			return url;
+		}
+		//上传头像到服务器
+		var imgurl = ''
+		var img_arr = []
+		var chuan_arr = []
+		// var a=''
+		function upimg() {
+			//       console.log(344)
+			var pic = $('#upload')[0].files[0];
+			var file = new FormData();
+			file.append('image', pic);
+			// setTimeout(function() {
+			// 	$('.tan').html('图片错误');
+			// 	$('.tan').css('display', 'block');
+			// 	$('.save-btn').attr('disabled', false)
+			// 	$('.no_click').attr('disabled', false)
+			// 	$('.tan').fadeOut(2000);
+			// 	$(".da img:last").remove();
+			// }, 5000);
+			// alert(pic)
+			$.ajax({
+				url: yuming + "/api.php/interfaces/index/upload_img",
+				type: "post",
+				data: file,
+				cache: false,
+				contentType: false,
+				processData: false,
+				success: function(data) {
+					// alert(data)
+					var res_data = JSON.parse(data);
+					console.log(res_data)
+					if (res_data.code == 2) {
+						// alert(res_data.msg)
+						// $('.tan').html('图片错误');
+						// $('.tan').css('display', 'block');
+						// $('.save-btn').attr('disabled', false)
+						// $('.no_click').attr('disabled', false)
+						// $('.tan').fadeOut(2000);
+						// $(".da img:last").remove();
+						return;
+					}
+					imgurl = res_data.data.img_thumb;
+					$('.tan').html('上传完毕');
+					$('.tan').css('display', 'none');
+					$('.save-btn').attr('disabled', false)
+					$('.no_click').attr('disabled', false)
+
+					// console.log(imgurl)
+					img_arr.push(imgurl)
+					console.log(arr_arr.length)
+					if (arr_arr.length == 1) {
+						chuan_arr.push(img_arr[0])
+					} else if (arr_arr.length == 3) {
+						chuan_arr.push(img_arr[1])
+					} else if (arr_arr.length == 6) {
+						chuan_arr.push(img_arr[3])
+					} else if (arr_arr.length == 10) {
+						chuan_arr.push(img_arr[6])
+					} else if (arr_arr.length == 15) {
+						chuan_arr.push(img_arr[10])
+					}
+
+					submita = Array.from(new Set(chuan_arr)).join(',')
+					// console.log(submita)
+				}
+			});
+		}
+	</script>
+
+
+</html>

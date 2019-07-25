@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" />
+		<meta content="yes" name="apple-mobile-web-app-capable" />
+		<meta content="black" name="apple-mobile-web-app-status-bar-style" />
+		<meta content="telephone=no" name="format-detection" />
+		<meta content="email=no" name="format-detection" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<title>主播详情</title>
+		<link rel="stylesheet" href="../libs/css/base.css" />
+		<link rel="stylesheet" href="../libs/swiper/swiper.min.css" />
+		<link rel="stylesheet" type="text/css" href="../libs/css/animate.css" />
+		<script type="text/javascript" src="../libs/js/rem.js"></script>
+		<style>
+			html {
+        background: #635069;
+      }
+
+      .box {
+        font-family: 'PingFangSC-Regular';
+        padding-top: 0.2rem;
+      }
+
+      .box-content {
+        width: 94%;
+        margin: 0 3%;
+      }
+
+      .one .swiper-slide {
+        border-radius: 0.08rem;
+		height: 3.31rem;
+      }
+		.one .swiper-slide img{
+			width: 7.02rem;
+			height: 3.31rem;
+			display: block;
+			object-fit:cover;
+		}
+      .select-list {
+        margin-top: 0.28rem;
+        font-size: 0.32rem;
+        display: flex;
+        justify-content: space-around;
+        color: #fff;
+      }
+
+      .select-list .selected {
+        border-bottom: 4px solid #d01fe0;
+      }
+
+      .box-body {
+        border-top: 1px solid #695f6a;
+        /* border-bottom: 1px solid #695f6a; */
+        padding-bottom: 3.8%;
+      }
+
+      .box-body .content {
+        margin-left: 0.2rem;
+        border-bottom: 1px solid #695f6a;
+      }
+
+      .user-info {
+        margin: 5% 2%;
+        position: relative;
+      }
+
+      .user-info .head {
+        width: 1.27rem;
+		height: 100%;
+		display: block;
+		object-fit:cover;
+        /* border-radius: 50%; */
+      }
+
+      .user-info .ul-list {
+        display: inline-block;
+        color: #fff;
+        font-size: 0.32rem;
+        margin-left: 2.3%;
+      }
+
+      .ul-list .icon {
+        display: inline-block;
+        width: 0.88rem;
+        height: 0.4rem;
+        text-align: center;
+        line-height: 0.4rem;
+        border-radius: 0.16rem;
+        background: #fa4646;
+        background: linear-gradient(to right, #fa4646, #fd7122);
+      }
+
+      .user-info .grey {
+        font-size: 0.28rem;
+        color: #bfbfbf;
+      }
+
+      .user-info .heart {
+        width: 0.23rem;
+		width: 0.23rem;
+      }
+
+      .his-btn {
+        display: inline-block;
+        width: 1.37rem;
+        height: 1.37rem;
+        border-radius: 50%;
+        overflow: hidden;
+        position: fixed;
+        right: 0.3rem;
+        top: 4.8rem;
+        z-index: 100;
+      }
+
+      .intro {
+        margin: 5% 4%;
+        color: #d1d1d1;
+        font-size: 0.28rem;
+      }
+
+      .intro .title {
+        color: #fff;
+        font-size: 0.32rem;
+      }
+
+      .jieshao {
+        padding-bottom: 1rem;
+      }
+
+      .send {
+        position: fixed;
+        bottom: 0.2rem;
+        left: 0.2rem;
+        right: 0.2rem;
+        height: 0.8rem;
+      }
+
+      .send-group {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+      }
+
+      .send-input-box {
+        overflow: hidden;
+        flex: 1;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+      }
+
+      .send-group .input {
+        height: 0.8rem;
+        background: #c8c4cc;
+        outline: none;
+        border: none;
+        padding-left: 2.4%;
+        min-width: 0;
+        flex: 1;
+        border-top-left-radius: 0.15rem;
+        border-bottom-left-radius: 0.15rem;
+      }
+
+      .send-group .input::-webkit-input-placeholder {
+        color: #fff;
+      }
+
+      .send-group .send-btn {
+        width: 1.3rem;
+        height: 0.8rem;
+        border: none;
+        outline: none;
+        background: #7a4bf9;
+        background: linear-gradient(to right, #7a4bf9, #b43af3);
+        color: #fff;
+        border-top-right-radius: 0.15rem;
+        border-bottom-right-radius: 0.15rem;
+      }
+
+      .liwu {
+        margin-left: 0.2rem;
+      }
+
+      .liwu img {
+        width: 0.73rem;
+        height: 0.73rem;
+      }
+
+      .gift {
+        display: none;
+        width: 7.5rem;
+        /* height: 4.46rem; */
+        background: #fff;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+      }
+
+      .gift ul {
+        margin-top: 0.2rem;
+      }
+
+      .gift li {
+        display: inline-block;
+        width: 24%;
+        text-align: center;
+        margin-bottom: 0.2rem;
+        color: #515151;
+        font-size: 0.24rem;
+        box-sizing: border-box;
+		margin-left: 0.06rem;
+      }
+
+      .gift .add {
+        background: rgba(172, 61, 244, 0.2);
+      }
+
+      .gift img {
+        width: 50%;
+      }
+
+      .gift-select {
+        height: 0.8rem;
+        line-height: 0.8rem;
+        font-size: 0.28rem;
+        border-top: 1px solid #D8D8D8;
+        /* border-bottom: 1px solid #695f6a; */
+        overflow: hidden;
+        padding-right: 0.2rem;
+      }
+
+      .gift-select .tap {
+        width: 0.3rem;
+        height: 0.3rem;
+        vertical-align: middle;
+        margin-left: 0.2rem;
+      }
+
+      .gift-select .fl {
+        float: left;
+      }
+
+      .gift-select .fr {
+        float: right;
+		display: flex;
+		align-items: center;
+		height: 100%;
+	
+      }
+
+      .gift-select .select {
+        width: 1.3rem;
+        height: 0.54rem;
+        border: 1px solid#814AF9;
+        border-top-left-radius: 0.3rem;
+        border-bottom-left-radius: 0.3rem;
+        background: #fff;
+      }
+
+      .song {
+        float: right;
+        width: 1.3rem;
+        height: 0.54rem;
+        background: #784cfa;
+        background: linear-gradient(#784cfa, #b83af3);
+        color: #fff;
+        margin-top: 0.03rem;
+        text-align: center;
+        border-top-right-radius: 0.3rem;
+        border-bottom-right-radius: 0.3rem;
+		line-height: 0.54rem;
+      }
+
+      .liuyan {
+        display: none;
+        color: #fff;
+        padding: 0 4% 1rem;
+      }
+
+      .liuyan-box {
+        border-top: 1px solid #695f6a;
+        border-bottom: 1px solid #695f6a;
+      }
+
+      .liuyan li {
+        padding-top: 0.4rem;
+        font-size: 0.3rem;
+      }
+		.liuyan li span{
+			margin-left: 0.1rem;
+		}
+      .liuyan .photo {
+        width: 0.54rem;
+        height: 0.54rem;
+		display: block;
+		object-fit:cover;
+        vertical-align: middle;
+		
+      }
+
+      .liuyan li:last-child .user-talk {
+        border-bottom: none;
+      }
+
+      .liuyan .user-talk {
+        color: #d1d1d1;
+        font-size: 0.28rem;
+        margin-left: 0.66rem;
+        padding-bottom: 0.16rem;
+        border-bottom: 1px solid #695f6a;
+      }
+		  
+	  .zuan_num{
+		  font-size: 0.22rem;
+		  color: #B4B4B4;
+	  }
+	  .ti_box{
+	  	position: fixed;
+	  	top: 0;
+	  	left: 0;
+	  	background: rgba(0,0,0,0.5);
+	  	display: none;
+	  	width: 100%;
+	  	height: 100%;
+	  }
+	  .ti_box .tixian_wh{
+	  	width: 5rem;
+	  	height: 4rem;
+	  	background: white;
+	  	border-radius: 0.1rem;
+	  	position: absolute;
+	  	top: 0;
+	  	bottom: 0;
+	  	margin: auto;
+	  	left: 1.25rem;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+	  }
+	  .shuru{
+	  	width: 100%;
+		height: 3rem;
+		line-height: 3rem;
+	  	/* margin-top: 1rem; */
+	  	text-align: center;
+		font-size: 0.48rem;
+	  }
+	  .foot{
+		  width: 100%;
+		  height: 1rem;
+		  box-sizing: border-box;
+		  display: flex;
+	  }
+	  .foot div{
+		  width: 50%;
+		  /* height: 100%; */
+		  text-align: center;
+		  line-height: 1rem;
+		  border-top: 1px solid #F0F0F0;
+	  }
+	  .dongxiao{
+		  width: 100%;
+		  height: 100%;
+		  position: fixed;
+		  top: 0;
+		  left: 0;
+		  text-align: center;
+		  line-height: 100%;
+		  display: none;
+	  }
+	  .dongxiao img{
+		  width: 4rem;
+		  margin-top: 3.5rem;
+		  z-index: 900;
+		  animation-duration: 2s;
+		  animation-delay: 0s;
+		  animation-iteration-count: 1;
+	  }
+    </style>
+	</head>
+
+	<body>
+		<div class="box login_box">
+			<!-- 轮播 -->
+			<div class="box-content">
+				<div class="swiper-container one">
+					<div class="swiper-wrapper lunbo">
+						<div class="swiper-slide"></div>
+						<div class="swiper-slide"></div>
+						<div class="swiper-slide"></div>
+					</div>
+					<div class="swiper-pagination one_page"></div>
+				</div>
+				<!-- 排序 -->
+				<div class="select-list">
+					<div class="introduce selected">主播介绍</div>
+					<div class="leave-msg">留言</div>
+				</div>
+			</div>
+			<img src="../assets/jtw/hishome.png" alt="" class="his-btn" />
+			<div class="jieshao">
+				<div class="box-body">
+					<div class="content">
+						<div class="user-info">
+							<div style="width: 1.27rem;height: 1.27rem;border-radius: 50%;display: inline-block;overflow: hidden;"><img src=""
+								 alt="" class="head" /></div>
+							<div class="ul-list">
+								<p><span class="nickname"></span> <span class="icon"></span></p>
+								<p class="user-id grey"></p>
+								<p class="grey">
+									<img src="../assets/jtw/heart.png" alt="" class="heart" /><span class="user-num"></span>
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="intro">
+						<p class="title">主播简介</p>
+						<p class="tit_con">
+						</p>
+					</div>
+					<div class="send">
+						<!-- <div class="send-group"> -->
+						<!-- <div class="send-input-box">
+								<input type="text" class="fl input" placeholder="请输入你想说的话" id="liuyan_inp" />
+								<button class="fl send-btn">发送</button>
+							</div> -->
+						<span class="liwu" style="float: right;">
+							<img src="../assets/jtw/liwu.png" alt="" />
+						</span>
+						<!-- </div> -->
+					</div>
+				</div>
+			</div>
+			<div class="liuyan">
+				<div class="liuyan-box">
+					<ul class="liuyan_ul">
+
+					</ul>
+					<div class="send">
+						<div class="send-group">
+							<div class="send-input-box">
+								<input type="text" class="fl input" placeholder="请输入你想说的话" id="liuyan_inp" />
+								<button class="fl send-btn">发送</button>
+							</div>
+							<span class="liwu">
+								<img src="../assets/jtw/liwu.png" alt="" />
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="gift">
+				<div class="close" style="text-align: right;margin-top: 0.1rem;margin-right: 0.2rem;">
+					关闭
+				</div>
+				<div class="swiper-container two">
+					<div class="swiper-wrapper">
+						<div class="swiper-slide">
+							<ul class="gift_ul gift_two">
+								<!-- 11111 -->
+							</ul>
+						</div>
+						<div class="swiper-slide">
+
+							<ul class="gift_ul gift_one">
+								<!-- 22222222 -->
+							</ul>
+						</div>
+
+					</div>
+					<div class="swiper-pagination two_page"></div>
+				</div>
+
+				<div class="gift-select">
+					<div class="fl">
+						<img src="../assets/jtw/zuanshi-2.png" class="tap" alt="" />
+						<span class="zuanshi">1000</span>
+						<img src="../assets/jtw/jinbi.png" class="tap" alt="" />
+						<span class="jinbi">1000</span>
+					</div>
+					<div class="fr">
+						<select class="select" id="liwu_song">
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="5">5</option>
+							<option value="10">10</option>
+						</select>
+						<span class="song">赠送</span>
+					</div>
+				</div>
+			</div>
+			<div class="tan"></div>
+			<div class="ti_box">
+				<div class="tixian_wh">
+					<div class="shuru">钻石不足</div>
+					<div class="foot">
+						<div style="border-right: 1px solid #F0F0F0;" class="suanle">算了</div>
+						<div class="chong" style="color: #255DFF;">去充值</div>
+					</div>
+				</div>
+			</div>
+			<div class="dongxiao">
+				<img src="" alt="">
+			</div>
+		</div>
+		<script src="../libs/js/jquery.min.js"></script>
+		<script src="../libs/swiper/swiper.min.js"></script>
+		<script>
+			var browserRule = /^.*((iPhone)|(iPad)|(Safari))+.*$/;
+			if (browserRule.test(navigator.userAgent)) {
+				window.addEventListener('pageshow', function(e) {
+					if (e.persisted) {
+						window.location.reload()
+					}
+				})
+			}
+			var TYPE_NAVIGATE = 0, // 当前页面是通过点击链接，书签和表单提交，或者脚本操作，或者在url中直接输入地址，type值为0
+				TYPE_RELOAD = 1, // 点击刷新页面按钮或者通过Location.reload()方法显示的页面，type值为1
+				TYPE_BACK_FORWARD = 2, // 页面通过历史记录和前进后退访问时。type值为2
+				TYPE_RESERVED = 255; // 任何其他方式，type值为255
+			window.addEventListener('pageshow', (e) => {
+				if (e.persisted || (window.performance &&
+						window.performance.navigation.type == TYPE_BACK_FORWARD)) {
+					location.reload()
+				}
+			}, false)
+			
+			$('select').blur(function() {
+				// console.log(111)
+				window.scrollTo(0, document.body.scrollTop + 1);
+				document.body.scrollTop >= 1 && window.scrollTo(0, document.body.scrollTop - 1);
+			})
+			$(function() {
+
+				var searchUrl = window.location.href;
+				var searchData = searchUrl.split("="); //截取 url中的“=”,获得“=”后面的参数
+				var searchText = decodeURI(searchData[1]); //decodeURI解码
+				var account_id = searchText;
+				// 详情页
+				var url = localStorage.yuming
+				xuan()
+				function xuan(){
+					$.ajax({
+						url: url + "/api.php/interfaces/index/zhubo_detail",
+						data: {
+							account_id: account_id,
+						},
+						dataType: 'json', //服务器返回json格式数据
+						success: function(data) {
+							console.log(data);
+							if (data.code == 1) {
+								// 头像
+								$('.head').attr('src', data.data.zhubo.avatar)
+								// 昵称
+								$('.nickname').html(data.data.zhubo.nickname)
+								// 平台
+								$('.icon').html(data.data.zhubo.platform)
+					
+								// 主播id
+								$('.user-id').html('ID：' + data.data.zhubo.account_id)
+								// 点赞数
+								$('.user-num').html(data.data.zhubo.inc_hotnum)
+								// 简介
+								$('.tit_con').html(data.data.zhubo.words)
+								// 轮播图
+								var pick = data.data.zhubo.lunbo
+								var picker = '';
+								$.each(pick, function(i, obj) {
+									picker += '<div class="swiper-slide">'
+									picker += '<img src="' + obj + '">';
+									picker += '</div>'
+								})
+								$('.lunbo').html(picker)
+								my_swiper();
+							}
+						}
+					});
+				}
+
+				function my_swiper() {
+					var mySwiper = new Swiper('.one', {
+						autoplay: {
+							delay: 2500
+						},
+						loop: true, // 循环模式选项
+						speed: 300,
+						pagination: {
+							el: '.one_page',
+						}
+					})
+				}
+				var page=1
+				function liuyan_list() {
+					// 留言列表
+					$.ajax({
+						url: url + "/api.php/interfaces/index/message_lst",
+						data: {
+							page:page,
+							pagesize:10,
+							account_id: account_id,
+						},
+						dataType: 'json', //服务器返回json格式数据
+						success: function(data) {
+							// console.log(data);
+							if (data.code == 1) {
+								// 列表
+								var mes_list = data.data.message_lst
+								var message_list = '';
+								$.each(mes_list, function(i, obj) {
+									message_list += '<li>'
+									message_list += '<div style="display:flex;algin-item:center;">'
+									message_list +=
+										'<div style="width:0.54rem;height:0.54rem;overflow:hidden;border-radius: 50%;display:inline-block;">'
+									message_list += '<img src="' + obj.avatar + '" alt="" class="photo" />'
+									message_list += '</div>'
+									message_list += '<span>'
+									message_list += obj.nickname
+									message_list += '</span>'
+									message_list += '</div>'
+									message_list += '<p class="user-talk">'
+									message_list += obj.content
+									message_list += '</p>'
+									message_list += '</li>'
+								})
+								$('.liuyan_ul').append(message_list)
+							}
+						}
+					});
+				}
+				liuyan_list();
+				// 点击发送发送留言
+				$('.send-btn').click(function() {
+					// console.log($('#liuyan_inp').val())
+
+					var liuyan_inp = $('#liuyan_inp').val()
+					if (liuyan_inp == '') {
+						return;
+					}
+					$.ajax({
+						url: url + "/api.php/interfaces/index/add_message",
+						data: {
+							zhubo_id: account_id,
+							account_id: localStorage.account_id,
+							content: liuyan_inp
+						},
+						dataType: 'json', //服务器返回json格式数据
+						success: function(data) {
+							console.log(data);
+							if (data.code == 1) {
+								liuyan_list();
+								$('#liuyan_inp').val('')
+							}
+						}
+					});
+				})
+				var order_sn = localStorage.order_sn
+				var jinbi = ''
+
+				function liwu_gift() {
+					// 礼物列表
+					$.ajax({
+						url: url + "/api.php/interfaces/index/gift_lst",
+						data: {
+							account_id: localStorage.account_id,
+							order_sn: order_sn
+						},
+						dataType: 'json', //服务器返回json格式数据
+						success: function(data) {
+							console.log(data);
+							if (data.code == 1) {
+								// 轮播图
+								// 免费礼物数量
+								var num = data.data.userinfo.free_gift_num
+								// 钻石数和金币数
+								$('.zuanshi').html(data.data.userinfo.diamonds)
+								$('.jinbi').html(data.data.userinfo.gold_coin)
+								jinbi = data.data.userinfo.gold_coin
+								// 第一页
+								var gift = data.data.gift.slice(0, 8)
+								var gift_list = '';
+								$.each(gift, function(i, obj) {
+									gift_list += '<li data-paiid="' + obj.id + '" data-xiabiao="' + i +
+										'" class="gift_song_li" data-gift_type="1">'
+									gift_list += '<img src="' + obj.gift_img + '" alt="" />';
+									gift_list += '<p>'
+									gift_list += obj.id == 1 ? obj.gift_name + '*' + num : obj.gift_name
+									gift_list += '</p>'
+									gift_list += '<p class="zuan_num">'
+									gift_list += obj.price + '钻'
+									gift_list += '</p>'
+									gift_list += '</li>'
+								})
+								$('.gift_two').html(gift_list)
+								// 第二页
+								var gift_tt = data.data.gift.slice(8)
+								var gift_list_tt = '';
+								$.each(gift_tt, function(i, obj) {
+									gift_list_tt += '<li data-paiid="' + obj.id + '" data-xiabiao="' + i +
+										'" class="gift_song_wu" data-gift_type="2">'
+									gift_list_tt += '<img src="' + obj.gift_img + '" alt="" />';
+									gift_list_tt += '<p>'
+									gift_list_tt += obj.id == 1 ? obj.gift_name + '*' + num : obj.gift_name
+									gift_list_tt += '</p>'
+									gift_list_tt += '<p class="zuan_num">'
+									gift_list_tt += obj.price + '钻'
+									gift_list_tt += '</p>'
+									gift_list_tt += '</li>'
+								})
+								$('.gift_one').html(gift_list_tt)
+
+							}
+						}
+					});
+				}
+				// 点击列表li  拿到id
+				var paiid = ''
+				var gift_type = ''
+				var xiabiao = ''
+				$(".gift_ul").on('click', 'li', function() {
+					gift_type = $(this).data('gift_type')
+					paiid = $(this).data('paiid')
+					xiabiao = $(this).data('xiabiao')
+					$('.gift li').removeClass('add')
+					$(this).addClass('add')
+					console.log(gift_type)
+				});
+				liwu_gift();
+				$('.liwu').click(function() {
+					$('.gift').slideDown()
+					swip()
+				})
+				// 送礼
+				$('.song').click(function() {
+					// 礼物数量
+					var liwu_song = $('#liwu_song').val()
+					if (!paiid) {
+						// 提示框显示隐藏
+						$('.tan').html('请选择礼物');
+						$('.tan').css('display', 'block');
+						$('.tan').fadeOut(2000);
+						return;
+					} else {
+						$(this).attr("disabled", "disabled");
+						$('.gift').slideUp()
+						swip()
+						// 送礼物
+						$.ajax({
+							url: url + "/api.php/interfaces/index/send_gift_api",
+							data: {
+								account_id: localStorage.account_id,
+								zhubo_id: account_id,
+								gift_id: paiid,
+								num: liwu_song
+							},
+							dataType: 'json', //服务器返回json格式数据
+							success: function(data) {
+								console.log(data);
+								liwu_gift();
+								xuan()
+								$(this).attr("disabled", false);
+								if (data.code == 1) {
+									// 提示框显示隐藏
+									// $('.tan').html(data.msg);
+									// $('.tan').css('display', 'block');
+									// $('.tan').fadeOut(2000);
+									// 加动效
+
+									var ul_li = $('.gift_song_li:eq(' + xiabiao + ') img')
+									var ul_li_img = ul_li[0].src
+
+									var ul_wu = $('.gift_song_wu:eq(' + xiabiao + ') img')
+									// console.log(ul_wu[0])
+									if(ul_wu[0]==undefined){
+										
+									}else{
+										var ul_wu_img = ul_wu[0].src
+									}
+									
+									$('.dongxiao').show()
+									// $('.dongxiao img').attr('src', ul_wu_img);
+									if (gift_type == 1) {
+										$('.dongxiao img').attr('src', ul_li_img);
+									} else if (gift_type == 2) {
+										$('.dongxiao img').attr('src', ul_wu_img);
+									}
+									$('.dongxiao img').addClass('zoomIn');
+
+									setTimeout(function() {
+										$('.dongxiao img').removeClass('zoomIn');
+										$('.dongxiao').hide()
+									}, 2500)
+								} else if (data.code == 2) {
+									console.log('弹框');
+									$('.ti_box').css('display', 'block')
+								}
+							}
+						});
+					}
+
+				})
+
+				function swip() {
+					var mySwi = new Swiper('.two', {
+						// autoplay: {
+						// delay: 2500
+						// },
+						// loop: true, // 循环模式选项
+						speed: 300,
+						paginationClickable: true,
+						pagination: {
+							el: '.two_page',
+						},
+						onSlideChangeEnd: function(swiper) {
+							alert(swiper.activeIndex);
+						}
+						// 当slide开始滑动时触发的事件
+						// onSlideChangeStart: function() {
+						// 	// 获取当前滑动页的下标
+						// 	actIndex = mySwi.activeIndex;
+						// 	console.log(actIndex)
+						// }
+					})
+				}
+				$('.introduce').click(function() {
+					if ($(this).hasClass('selected')) {
+						return
+					}
+					$('.select-list >div').toggleClass('selected')
+					$('.liuyan').hide()
+					$('.jieshao').show()
+				})
+				$('.leave-msg').click(function() {
+					if ($(this).hasClass('selected')) {
+						return
+					}
+					$('.select-list >div').toggleClass('selected')
+					$('.jieshao').hide()
+					$('.liuyan').show()
+				})
+				$('.close').click(function() {
+					$('.gift').slideUp()
+				})
+				$('.suanle').click(function() {
+					$('.ti_box').hide()
+				})
+				$('.chong').click(function() {
+					$('.ti_box').hide()
+					window.location.href = "chargeMoney/charge.html"
+				})
+				$('.his-btn').click(function() {
+					window.location.href = "house.html?account_id=" + account_id
+				})
+				var timers = null;
+				$(window).scroll(function() {
+					//当时滚动条离底部60px时开始加载下一页的内容
+					if (($(window).height() + $(window).scrollTop() + 60) >= $(document).height()) {
+						clearTimeout(timers);
+						timers = setTimeout(function() {
+							page++;
+							console.log("第" + page + "页");
+							liuyan_list();
+						}, 300);
+					}
+				});
+			})
+		</script>
+	</body>
+</html>

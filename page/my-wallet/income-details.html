@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" />
+		<meta content="yes" name="apple-mobile-web-app-capable" />
+		<meta content="black" name="apple-mobile-web-app-status-bar-style" />
+		<meta content="telephone=no" name="format-detection" />
+		<meta content="email=no" name="format-detection" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<title>收益明细</title>
+		<link rel="stylesheet" href="../../libs/css/base.css" />
+		<link rel="stylesheet" href="../../libs/css/common.css" />
+		<script type="text/javascript" src="../../libs/js/rem.js"></script>
+		<script type="text/javascript" src="../../libs/js/jquery.min.js"></script>
+
+		<style>
+			.amount-box {
+        height: 3.8rem;
+        color: #fff;
+        padding-top: 0.8rem;
+        text-align: center;
+        background: linear-gradient(#16243a, #635069);
+        background: -webkit-linear-gradient(#16243a, #635069);
+        background: -o-linear-gradient(#16243a, #635069);
+        background: -moz-linear-gradient(#16243a, #635069);
+        background: linear-gradient(#16243a, #635069);
+      }
+      .amount-box .title {
+        font-size: 0.34rem;
+      }
+      .amount-box .amount {
+        font-size: 0.8rem;
+      }
+      .amount-box .withdraw-btn {
+        margin: 0.4rem auto 0;
+        width: 2.2rem;
+        height: 0.75rem;
+        line-height: 0.75rem;
+        font-size: 0.35rem;
+        border-radius: 0.375rem;
+      }
+      .income-content {
+        background-color: #fff;
+        margin: 0 0.15rem;
+        padding-bottom: 0.25rem;
+        border-radius: 0.2rem;
+        position: relative;
+        top: -0.25rem;
+      }
+      .income-content .title {
+        height: 1rem;
+        line-height: 1rem;
+        text-align: center;
+        font-size: 0.32rem;
+        color: #4b4b4b;
+      }
+      .income-content .title .line {
+        margin-top: 0.5rem;
+        height: 0;
+        width: 0.6rem;
+        border-bottom: 0.01rem solid #cfcfcf;
+      }
+      .incom-list .cell {
+        font-size: 0.32rem;
+        margin: 0 0.15rem;
+        padding: 0.3rem 0 0.2rem;
+        border-bottom: 0.005rem solid #cfcfcf;
+      }
+      .incom-list .cell .cell-title {
+        color: #292929;
+      }
+      .incom-list .cell .cell-amount {
+        color: #de2512;
+      }
+      .incom-list .cell .cell-time {
+        font-size: 0.25rem;
+        color: #a8a8a8;
+      }
+			.ti_box{
+				position: fixed;
+				top: 0;
+				left: 0;
+				background: rgba(0,0,0,0.5);
+				display: none;
+				width: 100%;
+				height: 100%;
+			}
+			.ti_box .tixian_wh{
+				width: 5rem;
+				height: 5rem;
+				background: white;
+				border-radius: 0.1rem;
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				margin: auto;
+				left: 1.25rem;
+			}
+			.shuru{
+				width: 100%;
+				margin-top: 0.7rem;
+				text-align: center;
+			}
+			#money{
+				width: 80%;
+				height: 0.8rem;
+				margin-left: 10%;
+				margin-top: 0.5rem;
+				padding: 0 0.1rem;
+			}
+			.tixian_er{
+				width: 2.2rem;
+				height: 0.75rem;
+				line-height: 0.75rem;
+				text-align: center;
+				margin: 0.7rem auto;
+				border-radius: 0.5rem;
+			}
+			.guding {
+				width: 100%;
+				overflow-y: hidden;
+				/*为了兼容普通PC的浏览器*/
+				height: 100%;
+				position: fixed;
+			}
+    </style>
+	</head>
+
+	<body style="background: #f8f8f8;position: relative;height: 100%;" class="login_box">
+		<div class="income-container">
+			<div class="amount-box">
+				<div class="title">钱包金额（元）</div>
+				<div class="amount qianbao">0</div>
+				<div class="withdraw-btn linear-gradients-btn">
+					<!-- <a href="../chargeMoney/bindCard.html" style="color: #fff;">提现</a> -->
+					<div style="color: #fff;" class="tixian">提现</div>
+				</div>
+			</div>
+			<div class="income-content">
+				<div class="title display_flex justify-content_flex-center">
+					<div class="line"></div>
+					<div style="margin: 0 0.2rem;">收益记录</div>
+					<div class="line"></div>
+				</div>
+				<div class="incom-list">
+
+				</div>
+			</div>
+		</div>
+		<div class="ti_box">
+			<div class="tixian_wh">
+				<div class="shuru">请输入提现金额</div>
+				<input type="text" id="money" oninput="value=value.replace(/[^\d]/g,'')">
+				<div style="color: #fff;" class="tixian_er linear-gradients-btn">提现</div>
+			</div>
+		</div>
+		<div class="tan" style="width: 5rem;left: 1.25rem;"></div>
+		<div class="tan_tan"></div>
+	</body>
+	<script>
+		var browserRule = /^.*((iPhone)|(iPad)|(Safari))+.*$/;
+		if (browserRule.test(navigator.userAgent)) {
+			window.addEventListener('pageshow', function(e) {
+				if (e.persisted) {
+					window.location.reload()
+				}
+			})
+		}
+
+		$(function() {
+			$('body').height($('body')[0].clientHeight);
+
+			var url = localStorage.yuming
+			// 是否绑定银行卡
+			var is_bd = ''
+			var page=1
+			xuanran();
+			var money_xian = ''
+
+			function xuanran() {
+				$.ajax({
+					url: url + "/api.php/interfaces/index/money_mingxi",
+					data: {
+						account_id: localStorage.account_id,
+						page:page,
+						pagesize:12
+					},
+					dataType: 'json', //服务器返回json格式数据
+					success: function(data) {
+						console.log(data);
+						if (data.code == 1) {
+							$('.qianbao').html(data.data.money)
+							money_xian = data.data.money
+							is_bd = data.data.is_bd
+							// 收益列表
+							var pick = data.data.money_lst
+							// 如果没有数据 让'暂无数据展出出来'
+							if (pick.length == 0&&page==1) {
+								$('.incom-list').html(
+									'<div class="no_num" style="color: #000000;text-align: center;margin-top: 1rem;">暂无数据</div>');
+								return;
+							}
+							var picker = '';
+							$.each(pick, function(i, obj) {
+								if (obj.type == 1) {
+									var add_name = "礼物获赠"
+								} else if (obj.type == 2) {
+									var add_name = "邀请分成"
+								}
+								picker += '<div class="cell">'
+								picker += '<div class="display_flex justify-content_flex-justify">'
+								picker += '<div class="cell-title">'
+								picker += add_name
+								picker += '</div>'
+								picker += '<div class="cell-amount">'
+								picker += '+' + obj.money + '元'
+								picker += '</div>'
+								picker += '</div>'
+								picker += '<div class="cell-time">'
+								picker += obj.add_time
+								picker += '</div>'
+								picker += '</div>'
+							})
+							$('.incom-list').append(picker)
+						}
+					}
+				})
+			}
+			// 点击提现
+			$('.tixian').click(function() {
+				if (is_bd == 0) {
+					window.location.href = "../chargeMoney/bindCard.html"
+				} else if (is_bd == 1) {
+					// alert('输入金额')
+					$('.ti_box').css('display', 'block')
+					$('body').addClass('guding');
+				}
+			})
+			$('.ti_box').click(function(e){
+				console.log(e)
+				$(this).hide()
+				e = e || window.event;
+				if (e.stopPropagation) {
+					e.stopPropagation(); //其它浏览器
+				} else {
+					e.cancelBubble = true; //IE浏览器
+				}
+			})
+			$('.tixian_wh').click(function(){
+				return false;
+			})
+			// 提现金额
+			$('.tixian_er').click(function() {
+				var money = $('#money').val()
+				if (money_xian < money) {
+					// 提示框显示隐藏
+					$('.tan').html('提现金额必须小于等于您的余额');
+					$('.tan').css('display', 'block');
+					$('.tan').fadeOut(2000);
+					return;
+				}
+				$.ajax({
+					url: url + "/api.php/interfaces/index/add_tx",
+					data: {
+						account_id: localStorage.account_id,
+						money: money
+					},
+					dataType: 'json', //服务器返回json格式数据
+					success: function(data) {
+						console.log(data);
+						// 提示框显示隐藏
+						$('.tan_tan').html(data.msg);
+						$('.tan_tan').css('display', 'block');
+						$('.tan_tan').fadeOut(2000);
+						if (data.code == 1) {
+							$('body').removeClass('guding');
+							$('.ti_box').css('display', 'none')
+							$('#money').val('')
+							xuanran();
+						}
+					}
+				});
+			})
+			var timers = null;
+			$(window).scroll(function() {
+				//当时滚动条离底部60px时开始加载下一页的内容
+				if (($(window).height() + $(window).scrollTop() + 60) >= $(document).height()) {
+					clearTimeout(timers);
+					timers = setTimeout(function() {
+						page++;
+						console.log("第" + page + "页");
+						xuanran();
+					}, 300);
+				}
+			});
+		})
+		
+	</script>
+</html>

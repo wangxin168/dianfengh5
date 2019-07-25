@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" />
+		<meta content="yes" name="apple-mobile-web-app-capable" />
+		<meta content="black" name="apple-mobile-web-app-status-bar-style" />
+		<meta content="telephone=no" name="format-detection" />
+		<meta content="email=no" name="format-detection" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<title>消费记录</title>
+		<link rel="stylesheet" href="../../libs/css/base.css" />
+		<link rel="stylesheet" href="../../libs/css/common.css" />
+		<script type="text/javascript" src="../../libs/js/rem.js"></script>
+		<script type="text/javascript" src="../../libs/js/jquery.min.js"></script>
+
+		<style>
+			.tabs {
+				height: 0.8rem;
+				padding-top: 0.2rem;
+				border-bottom: 0.005rem solid #695f6a;
+				display: -webkit-box;
+				display: -ms-flexbox;
+				display: flex;
+				justify-content: space-around;
+			}
+
+			.tabs .tab {
+				height: 0.8rem;
+				line-height: 0.8rem;
+				box-sizing: border-box;
+				font-size: 0.35rem;
+				color: #bfbfbf;
+			}
+
+			.tab.active {
+				color: #fff;
+				border-bottom: 0.06rem solid #d01fe0;
+			}
+
+			.item {
+				font-size: 0.32rem;
+				margin-left: 0.3rem;
+				padding: 0.25rem 0.3rem 0.2rem 0;
+				border-bottom: 0.005rem solid #695f6a;
+			}
+
+			.item .title {
+				color: #fff;
+			}
+
+			.item .amount {
+				color: #de2512;
+			}
+
+			.item .time {
+				font-size: 0.25rem;
+				color: #a5a5a5;
+			}
+			.bg{
+				width: 100%;
+				height: 100%;
+				position: fixed;
+				top: 0;
+				left: 0;
+				z-index: -1;
+			}
+		</style>
+	</head>
+
+	<body>
+		<img src="../../assets/bg.png" class="bg">
+		<div class="record-container">
+			<div class="tabs">
+				<div class="tab active">消费记录</div>
+				<div class="tab">充值记录</div>
+			</div>
+			<div class="content">
+
+			</div>
+		</div>
+	</body>
+	<script>
+		$(function() {
+			var url = localStorage.yuming
+			var page = 1;
+			$('.tab').on('click', function() {
+				page=1
+				if ($(this).hasClass("active")) {
+					return false;
+				} else {
+					$(this).siblings().removeClass('active').end().addClass('active')
+					var tabName = $(this).text();
+					// return alert("切换至："+tabName)
+					if (tabName == "消费记录") {
+						$('.content').html('')
+						xiaofei();
+					} else if (tabName == "充值记录") {
+						$('.content').html('')
+						chongzhi();
+					}
+				}
+
+			})
+			
+			
+			function xiaofei() {
+				$.ajax({
+					url: url + "/api.php/interfaces/index/consume_lst",
+					data: {
+						account_id: localStorage.account_id,
+						page: page,
+						pagesize: 10
+					},
+					dataType: 'json', //服务器返回json格式数据
+					success: function(data) {
+						console.log(data);
+						if (data.code == 1) {
+							// 消费列表
+							var xiaofei = data.data.consume_lst
+							// 如果没有数据 让'暂无数据展出出来'
+							console.log(xiaofei.length)
+							if (xiaofei.length == 0&&page==1) {
+								$('.content').html(
+									'<div class="no_num" style="color: white;text-align: center;margin-top: 1rem;">暂无数据</div>');
+								return;
+							}
+							
+							var xiaofei_list = '';
+							$.each(xiaofei, function(i, obj) {
+								xiaofei_list += '<div class="swiper-slide">'
+								xiaofei_list += '<div class="item">'
+								xiaofei_list += '<div class="display_flex justify-content_flex-justify">'
+								xiaofei_list += '<div class="title">'
+								xiaofei_list += '礼物赠送*' + obj.gift_name + '*' + obj.num
+								xiaofei_list += '</div>'
+								xiaofei_list += '<div class="amount">'
+								xiaofei_list += '-' + obj.total_price + '钻石'
+								xiaofei_list += '</div>'
+								xiaofei_list += '</div>'
+								xiaofei_list += '<div class="time">'
+								xiaofei_list += obj.add_time
+								xiaofei_list += '</div>'
+								xiaofei_list += '</div>'
+							})
+							$('.content').append(xiaofei_list)
+						}
+					}
+				})
+			}
+
+			function chongzhi() {
+				$.ajax({
+					url: url + "/api.php/interfaces/index/recharge_lst",
+					data: {
+						account_id: localStorage.account_id,
+						page:page,
+						pagesize:10
+					},
+					dataType: 'json', //服务器返回json格式数据
+					success: function(data) {
+						console.log(data);
+						if (data.code == 1) {
+							// 消费列表
+							var chongzhi = data.data.recharge_lst
+							// 如果没有数据 让'暂无数据展出出来'
+							if (chongzhi.length == 0&&page==1) {
+								$('.content').html(
+									'<div class="no_num" style="color: white;text-align: center;margin-top: 1rem;">暂无数据</div>');
+								return;
+							}
+							
+							var chongzhi_list = '';
+							$.each(chongzhi, function(i, obj) {
+								chongzhi_list += '<div class="swiper-slide">'
+								chongzhi_list += '<div class="item">'
+								chongzhi_list += '<div class="display_flex justify-content_flex-justify">'
+								chongzhi_list += '<div class="title">'
+								chongzhi_list += '充值金额' + obj.money + '元'
+								chongzhi_list += '</div>'
+								chongzhi_list += '<div class="amount">'
+								chongzhi_list += '+' + obj.diamonds + '钻石'
+								chongzhi_list += '</div>'
+								chongzhi_list += '</div>'
+								chongzhi_list += '<div class="time">'
+								chongzhi_list += obj.add_time
+								chongzhi_list += '</div>'
+								chongzhi_list += '</div>'
+							})
+							$('.content').append(chongzhi_list)
+						}
+					}
+				})
+			}
+			xiaofei();
+			// chongzhi();
+
+			var timers = null;
+			$(window).scroll(function() {
+				//当时滚动条离底部60px时开始加载下一页的内容
+				if (($(window).height() + $(window).scrollTop() + 60) >= $(document).height()) {
+					clearTimeout(timers);
+					timers = setTimeout(function() {
+						page++;
+						console.log("第" + page + "页");
+						xiaofei();
+					}, 300);
+				}
+			});
+		})
+	</script>
+
+</html>

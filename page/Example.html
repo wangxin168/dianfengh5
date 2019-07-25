@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"
+      name="viewport"
+    />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <meta content="email=no" name="format-detection" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <title>我的认证</title>
+    <link rel="stylesheet" href="../libs/css/base.css" />
+    <script type="text/javascript" src="../libs/js/rem.js"></script>
+		<script src="../libs/js/jquery.min.js"></script>
+		<style type="text/css">
+			.renzheng{
+				width: 1.14rem;
+				height: 1.14rem;
+				margin: 2.4rem auto 0;
+				display: block;
+			}
+			.con{
+				width: 100%;
+				text-align: center;
+				color: #fff;
+				margin-top: 0.8rem;
+			}
+			.withdraw-btn {
+			  margin: 0.7rem auto 0;
+			  width: 2.2rem;
+			  height: 0.75rem;
+			  line-height: 0.75rem;
+			  font-size: 0.35rem;
+			  border-radius: 0.1rem;
+				background: linear-gradient(to right, #6950fb, #b83af3);
+				color: white;
+				text-align: center;
+				line-height: 0.75rem;
+			}
+		</style>
+  </head>
+	
+  <body>
+		<img src="../assets/renzheng.png" alt="" class="renzheng">
+		<div class="con">您的认证已提交，正在审核中...</div>
+		<div class="linear-gradients-btn withdraw-btn">返回首页</div>
+	</body>
+	<script>
+		// $.ajax({
+		// 	url: url + "/api.php/interfaces/index/get_wx_userinfo",
+		// 	data: {
+		// 		// account_id:localStorage.account_id,
+		// 	},
+		// 	dataType: 'json', //服务器返回json格式数据
+		// 	success: function(data) {
+		// 		console.log(data);
+		// 		if(data.code==1){
+		// 			window.location.href="index.html"
+		// 		}
+		// 	}
+		// });
+		$('.withdraw-btn').click(function(){
+			window.location.href="index.html"
+		})
+	</script>
+</html>

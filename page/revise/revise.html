@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" />
+		<meta content="yes" name="apple-mobile-web-app-capable" />
+		<meta content="black" name="apple-mobile-web-app-status-bar-style" />
+		<meta content="telephone=no" name="format-detection" />
+		<meta content="email=no" name="format-detection" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<title>修改资料</title>
+		<link rel="stylesheet" href="../../libs/css/base.css" />
+		<link rel="stylesheet" href="../../libs/mobileSelect/mobileSelect.css" />
+		<script type="text/javascript" src="../../libs/js/rem.js"></script>
+		<style>
+			html {
+				background: #635069;
+				color: #fff;
+			}
+
+			.box {
+				font-family: 'PingFangSC-Regular';
+				padding-top: 0.2rem;
+				padding-left: 3%;
+				font-size: 0.32rem;
+			}
+
+			.box li {
+				padding: 0.2rem 0;
+				padding-right: 0.2rem;
+				line-height: 0.8rem;
+				overflow: hidden;
+				border-bottom: 1px solid #695f6a;
+			}
+
+			.fl {
+				float: left;
+			}
+
+			.fr {
+				float: right;
+			}
+			.touxiang{
+				display: inline-block;width: 1.12rem;height: 1.12rem;border-radius: 50%;overflow: hidden;margin-right: 0.2rem;
+			}
+			.photo {
+				width: 1.12rem;
+				height: 1.12rem;
+				border-radius: 50%;
+				vertical-align: bottom;
+				margin-right: 0.2rem;
+				display: block;
+				object-fit:cover;
+			}
+
+			.box .right {
+				vertical-align: middle;
+				transform: scale(0.7);
+			}
+
+			.sca {
+				transform: scale(0.7);
+			}
+
+			.box .text {
+				position: relative;
+				top: 0.2rem;
+			}
+
+			.value {
+				color: #898989;
+				font-size: 0.28rem;
+			}
+
+			.save-btn {
+				display: block;
+				width: 5.5rem;
+				height: 1rem;
+				background: #b83af3;
+				background: linear-gradient(to right, #6950fb, #b83af3);
+				outline: none;
+				border: none;
+				color: #fff;
+				font-size: 0.3rem;
+				margin: 1.2rem auto 0;
+				border-radius: 0.08rem;
+			}
+
+			.box ul li {
+				position: relative;
+			}
+
+			.gotoLink {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+			}
+
+			.propContain {
+				position: fixed;
+				bottom: 0;
+				width: 100%;
+				background-color: #fff;
+				box-shadow: 0 -4px 10px #888;
+				display: none;
+			}
+
+			.propContain .avatar p {
+				font-family: 'PingFangSC-Regular';
+				font-size: 0.32rem;
+				color: #333;
+				padding: 0.2rem 0;
+				padding-right: 0.2rem;
+				line-height: 0.8rem;
+				overflow: hidden;
+				border-bottom: 1px solid #695f6a;
+				text-align: center;
+			}
+
+			.propContain .avatar p:last-child {
+				border: none;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="box login_box">
+			<ul>
+				<li class="avatarIcon">
+					<p class="fl text">头像</p>
+					<div class="fr" style="height: 1.12rem;display: flex;align-items: center;">
+						<div class="touxiang"><img src="" alt="" class="photo" id="pic" /></div>
+						<input id="upload" name="file" accept="image/*" type="file" style="display: none">
+
+						<img src="../../assets/jtw/right.png" alt="" class="sca" />
+					</div>
+				</li>
+				<li>
+					<p class="fl">昵称</p>
+					<div class="fr">
+						<a class="" href="reviseName.html">
+							<span class="value" id="nick"></span>
+							<img src="../../assets/jtw/right.png" alt="" class="right" />
+						</a>
+					</div>
+				</li>
+				<li>
+					<p class="fl ">ID</p>
+					<div class="fr">
+						<span class="value" id="account_id"></span>
+					</div>
+				</li>
+				<li class="sexIcon">
+					<p class="fl">姓别</p>
+					<div class="fr" style="width: 6rem;text-align: right;">
+						<span class="value sex sex-btn" style="width: 4rem;display: inline-block;"></span>
+						<img src="../../assets/jtw/right.png" alt="" class="right" class="sex-btn" />
+					</div>
+				</li>
+				<li class="birthday">
+					<p class="fl ">生日</p>
+					<div class="fr" style="width: 6rem;text-align: right;">
+						<span class="value hisdate date-btn" style="width: 4rem;display: inline-block;"></span>
+						<img src="../../assets/jtw/right.png" alt="" class="right" class="date-btn" />
+					</div>
+				</li>
+			</ul>
+			<button class="save-btn">保存</button>
+			<!-- <div class="tan"></div> -->
+		</div>
+		<div class="tan"></div>
+		<!--选择框-->
+		<div class="propContain">
+			<div class="avatar">
+				<!-- <p class="takePic">拍照</p> -->
+				<p class="getPic">从相册里选择</p>
+				<p class="slideHide">取消</p>
+			</div>
+		</div>
+		<script src="../../libs/js/jquery.min.js"></script>
+		<script src="../../libs/mobileSelect/mobileSelect.min.js"></script>
+	</body>
+</html>
+<script>
+	var browserRule = /^.*((iPhone)|(iPad)|(Safari))+.*$/;
+	if (browserRule.test(navigator.userAgent)) {
+		window.addEventListener('pageshow', function(e) {
+			console.log(e)
+			if (e.persisted) {
+				window.location.reload()
+			}
+		})
+	}
+	var yuming = localStorage.yuming
+	var objUrl = ''
+	$(function() {
+
+		$("#pic").click(function() {
+			$("#upload").click(); //隐藏了input:file样式后，点击头像就可以本地上传
+			$("#upload").on("change", function() {
+				objUrl = getObjectURL(this.files[0]); //获取图片的路径，该路径不是图片在本地的路径
+				console.log(objUrl)
+				$('.tan').html('上传中');
+				$('.tan').css('display', 'block');
+				$('.save-btn').attr('disabled', 'disabled')
+				if (objUrl) {
+					$("#pic").attr("src", objUrl); //将图片路径存入src中，显示出图片
+					upimg();
+				}
+			});
+		});
+	});
+
+
+	//建立一?可存取到?file的url
+	function getObjectURL(file) {
+		var url = null;
+		if (window.createObjectURL != undefined) { // basic
+			url = window.createObjectURL(file);
+		} else if (window.URL != undefined) { // mozilla(firefox)
+			url = window.URL.createObjectURL(file);
+		} else if (window.webkitURL != undefined) { // webkit or chrome
+			url = window.webkitURL.createObjectURL(file);
+		}
+		return url;
+	}
+	//上传头像到服务器
+	var imgurl = ''
+
+	function upimg() {
+		//       console.log(344)
+		var pic = $('#upload')[0].files[0];
+		var file = new FormData();
+		file.append('image', pic);
+		$.ajax({
+			url: yuming + "/api.php/interfaces/index/upload_img",
+			type: "post",
+			data: file,
+			cache: false,
+			contentType: false,
+			processData: false,
+			success: function(data) {
+				console.log(data);
+				$('.tan').html('上传完毕');
+				$('.tan').css('display', 'none');
+				$('.save-btn').attr('disabled', false)
+				var res_data = JSON.parse(data);
+				imgurl = res_data.data.img_thumb;
+
+				//               $("#pic").append("<img src='+yuming+/" + res_data.data.img_url + "'>")
+			}
+		});
+	}
+</script>
+<script>
+	$(function() {
+
+		// 邀请码
+		$('#account_id').html(localStorage.account_id)
+		// $('.avatarIcon').on('click', function() {
+		// 	$('.propContain').slideDown()
+		// })
+		$('.slideHide').on('click', function() {
+			$(this)
+				.parent()
+				.parent()
+				.slideUp()
+		})
+		$('.takePic').on('click', function() {
+			alert('调起摄像头')
+			$(this)
+				.parent()
+				.parent()
+				.slideUp()
+		})
+		$('.getPic').on('click', function() {
+			alert('调起相册')
+			$(this)
+				.parent()
+				.parent()
+				.slideUp()
+		})
+
+		var mobileSelect2 = new MobileSelect({
+			trigger: '.sex-btn',
+			title: '',
+			wheels: [{
+				data: ['男', '女']
+			}],
+			position: [0],
+			callback: function(indexArr, data) {
+				$('.sex').html(data[0])
+			}
+		})
+		$('.hisdate').html()
+		var mobileSelect3 = new MobileSelect({
+			trigger: '.date-btn',
+			title: '',
+			wheels: [{
+					data: [{
+							id: '1',
+							value: '1990'
+						},
+						{
+							id: '2',
+							value: '1991'
+						},
+						{
+							id: '3',
+							value: '1992'
+						},
+						{
+							id: '4',
+							value: '1993'
+						},
+						{
+							id: '5',
+							value: '1994'
+						},
+						{
+							id: '6',
+							value: '1995'
+						},
+						{
+							id: '7',
+							value: '1996'
+						},
+						{
+							id: '8',
+							value: '1997'
+						},
+						{
+							id: '9',
+							value: '1998'
+						},
+						{
+							id: '10',
+							value: '1999'
+						},
+						{
+							id: '11',
+							value: '2000'
+						},
+						{
+							id: '12',
+							value: '2001'
+						},
+						{
+							id: '13',
+							value: '2002'
+						},
+						{
+							id: '14',
+							value: '2003'
+						},
+						{
+							id: '15',
+							value: '2004'
+						},
+						{
+							id: '16',
+							value: '2005'
+						},
+						{
+							id: '17',
+							value: '2006'
+						},
+						{
+							id: '18',
+							value: '2007'
+						},
+						{
+							id: '19',
+							value: '2008'
+						},
+						{
+							id: '20',
+							value: '2009'
+						},
+						{
+							id: '21',
+							value: '2010'
+						}
+					]
+				},
+				{
+					data: [{
+							id: '1',
+							value: '01'
+						},
+						{
+							id: '2',
+							value: '02'
+						},
+						{
+							id: '3',
+							value: '03'
+						},
+						{
+							id: '4',
+							value: '04'
+						},
+						{
+							id: '5',
+							value: '05'
+						},
+						{
+							id: '6',
+							value: '06'
+						},
+						{
+							id: '7',
+							value: '07'
+						},
+						{
+							id: '8',
+							value: '08'
+						},
+						{
+							id: '9',
+							value: '09'
+						},
+						{
+							id: '10',
+							value: '10'
+						},
+						{
+							id: '11',
+							value: '11'
+						},
+						{
+							id: '12',
+							value: '12'
+						}
+					]
+				},
+				{
+					data: [{
+							id: '1',
+							value: '01'
+						},
+						{
+							id: '2',
+							value: '02'
+						},
+						{
+							id: '3',
+							value: '03'
+						},
+						{
+							id: '4',
+							value: '04'
+						},
+						{
+							id: '5',
+							value: '05'
+						},
+						{
+							id: '6',
+							value: '06'
+						},
+						{
+							id: '7',
+							value: '07'
+						},
+						{
+							id: '8',
+							value: '08'
+						},
+						{
+							id: '9',
+							value: '09'
+						},
+						{
+							id: '10',
+							value: '10'
+						},
+						{
+							id: '11',
+							value: '11'
+						},
+						{
+							id: '12',
+							value: '12'
+						},
+						{
+							id: '13',
+							value: '13'
+						},
+						{
+							id: '14',
+							value: '14'
+						},
+						{
+							id: '15',
+							value: '15'
+						},
+						{
+							id: '16',
+							value: '16'
+						},
+						{
+							id: '17',
+							value: '17'
+						},
+						{
+							id: '18',
+							value: '18'
+						},
+						{
+							id: '19',
+							value: '19'
+						},
+						{
+							id: '20',
+							value: '20'
+						},
+						{
+							id: '21',
+							value: '21'
+						},
+						{
+							id: '22',
+							value: '22'
+						},
+						{
+							id: '23',
+							value: '23'
+						},
+						{
+							id: '24',
+							value: '24'
+						},
+						{
+							id: '25',
+							value: '25'
+						},
+						{
+							id: '26',
+							value: '26'
+						},
+						{
+							id: '27',
+							value: '27'
+						},
+						{
+							id: '28',
+							value: '28'
+						},
+						{
+							id: '29',
+							value: '29'
+						},
+						{
+							id: '30',
+							value: '30'
+						},
+						{
+							id: '31',
+							value: '31'
+						}
+					]
+				}
+			],
+			position: [6, 8, 22],
+			callback: function(indexArr, data) {
+				$('.hisdate').html(
+					'' + data[0].value + '-' + data[1].value + '-' + data[2].value
+				)
+			}
+		})
+		$('.save-btn').click(function() {
+			var sex = $('.sex').html()
+			var hisdate = $('.hisdate').html()
+			var nick = $('#nick').html()
+			var account_id = $('#account_id').html()
+			// var sexnum=''
+			if (sex == '男') {
+				var sexnum = 1
+			} else if (sex == '女') {
+				var sexnum = 2
+			}
+			console.log(sexnum)
+			$.ajax({
+				url: yuming + "/api.php/interfaces/index/save_userinfo",
+				data: {
+					account_id: account_id,
+					nickname: nick,
+					sex: sexnum,
+					birthday: hisdate,
+					avatar: imgurl
+				},
+				dataType: 'json', //服务器返回json格式数据
+				success: function(data) {
+					console.log(data);
+					// 提示框显示隐藏
+					// $('.tan').html(data.msg);
+					// $('.tan').css('display','block');
+					// $('.tan').fadeOut(2000);
+					if (data.code == 1) {
+						window.location.href = "../personal.html"
+						// window.history.back()
+					}
+				}
+			});
+		})
+	})
+</script>
+<script>
+	var url = localStorage.yuming
+	$.ajax({
+		url: url + "/api.php/interfaces/index/my_userinfo",
+		data: {
+			account_id: localStorage.account_id,
+		},
+		dataType: 'json', //服务器返回json格式数据
+		success: function(data) {
+			console.log(data);
+			if (data.code == 1) {
+				if (localStorage.nickn) {
+					// 昵称的值 
+					$('#nick').html(localStorage.nickn)
+				} else {
+					$('#nick').html(data.data.userinfo.nickname)
+				}
+
+				if (data.data.userinfo.avatar) {
+					$('.photo').attr('src', data.data.userinfo.avatar)
+				} else {
+					// $('.photo').attr('src',  '../../assets/jtw/head.png)
+				}
+
+				if (data.data.userinfo.sex == 1) {
+					$('.sex').html('男')
+				} else if (data.data.userinfo.sex == 2) {
+					$('.sex').html('女')
+				} else {
+					$('.sex').html('请选择性别')
+				}
+				if (!data.data.userinfo.birthday) {
+					$('.hisdate').html('请选择出生日期')
+				} else {
+					$('.hisdate').html(data.data.userinfo.birthday)
+				}
+			}
+		}
+	});
+</script>

@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" />
+		<meta content="yes" name="apple-mobile-web-app-capable" />
+		<meta content="black" name="apple-mobile-web-app-status-bar-style" />
+		<meta content="telephone=no" name="format-detection" />
+		<meta content="email=no" name="format-detection" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<title>我的家园</title>
+		<link rel="stylesheet" href="../libs/css/base.css" />
+		<script type="text/javascript" src="../libs/js/rem.js"></script>
+		<script src="../libs/js/jquery.min.js"></script>
+		<style type="text/css">
+			html,
+			body {
+				background: #FFEDB7;
+			}
+
+			.top_di {
+				width: 100%;
+				height: 3.94rem;
+				background: url('../assets/hou.png') no-repeat;
+				background-size: 100% 100%;
+				display: flex;
+			}
+
+			.top_left {
+				width: 3.34rem;
+				height: 3.34rem;
+				/* background:url('../assets/house.png') no-repeat; */
+				/* background-size: 100% 100%; */
+				margin-top: 0.21rem;
+				margin-left: 0.23rem;
+			}
+
+			.top_left .jindu {
+				width: 1.90rem;
+				height: 0.1rem;
+				border-radius: 0.215rem;
+				background: #D9BC93;
+				border: 1px solid #987539;
+				margin-top: 2.71rem;
+				margin-left: 0.56rem;
+			}
+
+			.jindu_jin {
+				width: 20%;
+				background: #AD8D61;
+				border-radius: 0.215rem 0px 0px 0.215rem;
+				height: 100%;
+			}
+
+			.top_left p {
+				/* width: 100%; */
+				margin-left: 1.25rem;
+				/* text-align: center; */
+				font-size: 0.24rem;
+				color: #A78453;
+			}
+
+			.top_right {
+				width: 3.44rem;
+				height: 1.30rem;
+				background: url(../assets/juxing.png) no-repeat;
+				background-size: 100% 100%;
+				margin-top: 1.16rem;
+				margin-left: 0.21rem;
+				display: flex;
+				align-items: center;
+			}
+
+			.top_right .touxiang {
+				width: 0.88rem;
+				height: 0.88rem;
+				text-align: center;
+				border-radius: 50%;
+				background: #ffffff;
+				margin-left: 0.18rem;
+			}
+
+			.top_right img {
+				width: 0.83rem;
+				height: 0.83rem;
+				border-radius: 50%;
+				margin-top: 0.025rem;
+
+			}
+
+			.top_right .nicheng {
+				margin-left: 0.11rem;
+				color: #ffffff;
+				text-align: center;
+			}
+
+			.top_right .nicheng p:nth-of-type(1) {
+				font-size: 0.3rem;
+			}
+
+			.top_right .nicheng p:nth-of-type(2) {
+				font-size: 0.26rem;
+			}
+
+			.zoon {
+				width: 90%;
+				margin: 0.6rem auto;
+				/* background: red; */
+				display: flex;
+				justify-content: space-between;
+			}
+
+			.zoon li {
+				width: 24.5%;
+				position: relative;
+				height: 1.5rem;
+
+			}
+
+			.zoon li img {
+				display: block;
+
+			}
+
+			.dongwu {
+				width: 1.66rem;
+				position: absolute;
+				z-index: 1;
+			}
+
+			.jishu {
+				width: 0.5rem;
+				height: 0.4rem;
+				position: absolute;
+				right: 0.1rem;
+				bottom: 0.2rem;
+				z-index: 2;
+				background: url(../assets/zhua.png) no-repeat;
+				background-size: 100% 100%;
+				font-size: 0.2rem;
+				color: #ffffff;
+				text-align: center;
+				line-height: 0.5rem;
+			}
+
+			.keng {
+				width: 100%;
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				z-index: 0;
+			}
+
+			.foot_di {
+				width: 90%;
+				display: flex;
+				justify-content: space-between;
+				margin: auto;
+			}
+
+			.foot_di img {
+				width: 3.2rem;
+				height: 1.04rem;
+			}
+
+			.zeng_box {
+				width: 100%;
+				height: 100%;
+				position: fixed;
+				top: 0;
+				left: 0;
+				background: rgba(0, 0, 0, 0.5);
+				display: none;
+				z-index: 10;
+			}
+
+			.zeng_white {
+				width: 100%;
+				height: 4.92rem;
+				background: #ffffff;
+				position: absolute;
+				left: 0;
+				bottom: 0;
+			}
+
+			.zeng_white p {
+				text-align: center;
+			}
+
+			.zeng_zoon {
+				width: 84%;
+				display: flex;
+				justify-content: space-between;
+				margin: 0 auto 0.44rem;
+				box-sizing: border-box;
+			}
+
+			.zeng_zoon li {
+				width: 33%;
+				text-align: center;
+				height: 2rem;
+			}
+
+			.zeng_zoon li img {
+				width: 0.9rem;
+				margin-top: 0.3rem;
+			}
+
+			.zeng_zoon li p:nth-of-type(1) {
+				font-size: 0.24rem;
+				color: #515151;
+			}
+
+			.zeng_zoon li p:nth-of-type(2) {
+				font-size: 0.24rem;
+				color: #515151;
+			}
+
+			.zeng_ctn {
+				width: 100%;
+				text-align: center;
+				height: 1.1rem;
+				line-height: 1.1rem;
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				color: #6D4639;
+				background: #FFCF1D;
+				font-size: 0.32rem;
+				border: none;
+			}
+
+			.jisuan {
+				/* width: 1.5rem; */
+				display: flex;
+				align-items: center;
+				/* justify-content: space-between; */
+				margin: auto;
+			}
+
+			.jisuan img {
+				width: 0.5rem;
+				height: 0.5rem;
+			}
+
+			.jisuan .left_jinbi {
+				width: 2.8rem;
+				margin-left: 0.2rem;
+			}
+
+			.left_jinbi img {
+				width: 0.3rem;
+				height: 0.3rem;
+			}
+
+			.right_div {
+				width: 1.5rem;
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+			}
+
+			.bian {
+				border: 1px solid #FFCF1D;
+				border-radius: 0.27rem;
+			}
+
+			.ti_box {
+				position: fixed;
+				top: 0;
+				left: 0;
+				background: rgba(0, 0, 0, 0.5);
+				display: none;
+				width: 100%;
+				height: 100%;
+				z-index: 20;
+			}
+
+			.ti_box .tixian_wh {
+				width: 5rem;
+				height: 4rem;
+				background: white;
+				border-radius: 0.1rem;
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				margin: auto;
+				left: 1.25rem;
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+			}
+
+			.shuru {
+				width: 100%;
+				height: 3rem;
+				line-height: 3rem;
+				/* margin-top: 1rem; */
+				text-align: center;
+				font-size: 0.48rem;
+			}
+
+			.foot {
+				width: 100%;
+				height: 1rem;
+				box-sizing: border-box;
+				display: flex;
+			}
+
+			.foot div {
+				width: 50%;
+				/* height: 100%; */
+				text-align: center;
+				line-height: 1rem;
+				border-top: 1px solid #F0F0F0;
+			}
+
+			.zhuan_box {
+				width: 100%;
+				height: 100%;
+				position: fixed;
+				top: 0;
+				left: 0;
+				background: rgba(0, 0, 0, 0.5);
+				display: none;
+				z-index: 10;
+			}
+
+			.zhuanpan {
+				width: 5.82rem;
+				margin: 0 auto;
+				height: 5.82rem;
+				background: url(../assets/zhuanpan.png) no-repeat;
+				background-size: 100% 100%;
+				/* margin-top: 2.51rem; */
+			}
+			.zhuan_box_mini{
+				width: 100%;
+				margin: 0 auto;
+				height: 5.82rem;
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				margin: auto;
+				text-align: center;
+			}
+			.zhuanpan img {
+				margin: 1.6rem 1.6rem;
+				width: 2.6rem;
+				height: 2.6rem;
+			}
+
+			.chou_con {
+				width: 100%;
+				height: 100%;
+				position: fixed;
+				top: 0;
+				left: 0;
+				background: rgba(0, 0, 0, 0.5);
+				display: none;
+				z-index: 10;
+			}
+
+			.chou_white {
+				width: 4.9rem;
+				height: 5.23rem;
+				background: #FFFFFF;
+				border-radius: 0.18rem;
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				margin: auto;
+				left: 1.29rem;
+				text-align: center;
+			}
+
+			.gongxi {
+				font-size: 0.32rem;
+				color: #484848;
+				margin-top: 0.47rem;
+			}
+
+			.succ {
+				font-size: 0.27rem;
+				color: #919191;
+				margin-top: 0.05rem;
+			}
+
+			.zoon_img {
+				width: 1.88rem;
+				height: 2.09rem;
+				margin-top: 0.1rem;
+			}
+
+			.anniu {
+				width: 3.2rem;
+				height: 0.99rem;
+				margin-top: 0.1rem;
+			}
+
+			.close_chou {
+				position: absolute;
+				top: 0.2rem;
+				right: 0.2rem;
+				width: 0.28rem;
+				height: 0.28rem;
+			}
+			.dang{
+				width: 100%;
+				height: 100%;
+				position: fixed;
+				top: 0;
+				left: 0;
+				background: rgba(0, 0, 0, 0);
+				display: none;
+				z-index: 19;
+			}
+			.guan{
+				width: 0.87rem;
+				height: 0.87rem;
+				position: absolute;
+				top: -0.8rem;
+				right: 0.2rem;
+			}
+			.num{
+				min-width: 0.8rem;
+				text-align: center;
+				border: none;
+			}
+		</style>
+	</head>
+
+	<body class="login_box">
+		<div class="top_di">
+			<div class="top_left">
+				<div class="jindu">
+					<div class="jindu_jin"></div>
+				</div>
+				<p>LV.<span class="dengji"></span></p>
+			</div>
+			<div class="top_right">
+				<div class="touxiang"><img src="../assets/logo.png" alt="" class="actor_tou"></div>
+				<div class="nicheng">
+					<p class="nickname"></p>
+					<p>的家园</p>
+				</div>
+			</div>
+		</div>
+		<ul class="cat zoon">
+			<li>
+				<img src="" alt="" class="dongwu cat_one">
+				<img src="../assets/tuoyuan.png" class="keng">
+			</li>
+			<li>
+				<img src="" alt="" class="dongwu cat_two">
+				<img src="../assets/tuoyuan.png" class="keng">
+			</li>
+			<li>
+				<img src="" alt="" class="dongwu cat_three">
+				<img src="../assets/tuoyuan.png" class="keng">
+			</li>
+			<li>
+				<img src="" alt="" class="dongwu cat_four">
+				<img src="../assets/tuoyuan.png" class="keng">
+			</li>
+		</ul>
+		<ul class="dog zoon">
+			<li>
+				<img src="" alt="" class="dongwu dog_one">
+				<img src="../assets/tuoyuan.png" class="keng">
+			</li>
+			<li>
+				<img src="" alt="" class="dongwu dog_two">
+				<img src="../assets/tuoyuan.png" class="keng">
+			</li>
+			<li>
+				<img src="" alt="" class="dongwu dog_three">
+				<img src="../assets/tuoyuan.png" class="keng">
+			</li>
+			<li>
+				<img src="" alt="" class="dongwu dog_four">
+				<img src="../assets/tuoyuan.png" class="keng">
+			</li>
+		</ul>
+		<ul class="fish zoon">
+			<li>
+				<img src="" alt="" class="dongwu fish_one">
+				<img src="../assets/tuoyuan.png" class="keng">
+			</li>
+			<li>
+				<img src="" alt="" class="dongwu fish_two">
+				<img src="../assets/tuoyuan.png" class="keng">
+			</li>
+			<li>
+				<img src="" alt="" class="dongwu fish_three">
+				<img src="../assets/tuoyuan.png" class="keng">
+			</li>
+			<li>
+				<img src="" alt="" class="dongwu fish_four">
+				<img src="../assets/tuoyuan.png" class="keng">
+			</li>
+		</ul>
+		<div class="foot_di">
+			<img src="../assets/yellow.png" alt="" class="zeng">
+			<img src="../assets/orange.png" alt="" class="chou">
+		</div>
+		<!-- 赠送白色 -->
+		<div class="zeng_box">
+			<div class="zeng_white">
+				<div class="close" style="text-align: right;margin-top: 0.1rem;margin-right: 0.2rem;">
+					关闭
+				</div>
+				<ul class="zeng_zoon">
+					<li data-type="1">
+						<img src="../assets/yiji/cat.png" alt="">
+						<p>1级猫</p>
+						<p>100金币</p>
+					</li>
+					<li data-type="2">
+						<img src="../assets/yiji/dog.png" alt="">
+						<p>1级狗</p>
+						<p>100金币</p>
+					</li>
+					<li data-type="3">
+						<img src="../assets/yiji/fish.png" alt="">
+						<p>1级鱼</p>
+						<p>100金币</p>
+					</li>
+				</ul>
+				<div class="jisuan">
+					<div class="left_jinbi">
+						<img src="../assets/jtw/jinbi.png" alt="">
+						<span class="jinbi_jin"></span>
+					</div>
+					<div class="right_div">
+						<img src="../assets/jian.png" alt="" class="jian">
+						<!-- <span class="num">0</span> -->
+						<input type="text" class="num" value="0">
+						<img src="../assets/add.png" class="add">
+					</div>
+				</div>
+				<button class="zeng_ctn">赠送</button>
+			</div>
+
+		</div>
+		<div class="tan"></div>
+		<div class="ti_box">
+			<div class="tixian_wh">
+				<div class="shuru">金币不足</div>
+				<div class="foot">
+					<div style="border-right: 1px solid #F0F0F0;" class="suanle">算了</div>
+					<div class="chong" style="color: #255DFF;">去给主播送礼</div>
+				</div>
+			</div>
+		</div>
+		<div class="zhuan_box">
+			<div class="zhuan_box_mini">
+				<div class="zhuanpan">
+					<img id="lotteryBtn" alt="" src="../assets/zhizhen.png" />
+				</div>
+				<img src="../assets/guan.png" alt="" class="guan">
+			</div>
+		</div>
+		<div class="chou_con">
+			<div class="chou_white">
+				<p class="gongxi">恭喜您</p>
+				<p class="succ">成功获得<span class="songchu"></span></p>
+				<img src="../assets/chou/cat1.png" alt="" class="zoon_img">
+				<img src="../assets/chou/lingqv.png" alt="" class="anniu">
+				<!-- <img src="../assets/chou/close.png" alt="" class="close_chou"> -->
+			</div>
+		</div>
+		<div class="dang"></div>
+	</body>
+	<script type="text/javascript" src="../libs/js/jQueryRotate.2.2.js"></script>
+	<script>
+		var account_id = ''
+
+		function getQueryString(name) {
+			var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+			var reg_rewrite = new RegExp("(^|/)" + name + "/([^/]*)(/|$)", "i");
+			var r = window.location.search.substr(1).match(reg);
+			var q = window.location.pathname.substr(1).match(reg_rewrite);
+			if (r != null) {
+				return unescape(r[2]);
+			} else if (q != null) {
+				return unescape(q[2]);
+			} else {
+				return null;
+			}
+		}
+		$('input').blur(function() {
+			// console.log(111)
+			window.scrollTo(0, document.body.scrollTop + 1);
+			document.body.scrollTop >= 1 && window.scrollTo(0, document.body.scrollTop - 1);
+		})
+		account_id = getQueryString("account_id");
+		$('.zeng').click(function() {
+			$('.zeng_box').show()
+		})
+
+		$('.add').click(function() {
+			$('.num').val(Number($('.num').val()) + 1)
+		})
+		$('.jian').click(function() {
+			$('.num').val(Number($('.num').val()) - 1)
+			if (Number($('.num').val()) - 1 < 0) {
+				$('.num').val('0')
+			}
+		})
+		// 基本信息渲染
+		var url = localStorage.yuming
+		var jinbi = ''
+		xuanran()
+
+		function xuanran() {
+			$.ajax({
+				url: url + "/api.php/interfaces/index/my_house_api",
+				data: {
+					zhubo_id: account_id,
+					account_id: localStorage.account_id
+				},
+				dataType: 'json', //服务器返回json格式数据
+				success: function(data) {
+					console.log(data);
+					if (data.code == 1) {
+						$('.actor_tou').attr('src', data.data.avatar);
+						$('.nickname').html(data.data.nickname);
+						jinbi = data.data.jin_bi
+						// 房子变换
+						var yideng=30000;
+						var erdeng=60000;
+						var sandeng=120000;
+						var sideng=240000;
+						// 人气
+						var renqiyi=6000;
+						var renqier=12000;
+						var renqisan=24000;
+						var renqisi=48000;
+						console.log(data.data.total_renqi)
+						var arrjie=[]
+						if (data.data.total_renqi < yideng) {
+							$('.top_left').css('background', 'url(../assets/house/1.png) no-repeat');
+							$('.top_left').css('background-size', '100% 100%');
+						} else if (data.data.total_renqi >= yideng && data.data.total_renqi < erdeng) {
+							$('.top_left').css('background', 'url(../assets/house/2.png) no-repeat')
+							$('.top_left').css('background-size', '100% 100%');
+						} else if (data.data.total_renqi >= erdeng && data.data.total_renqi < sandeng) {
+							$('.top_left').css('background', 'url(../assets/house/3.png) no-repeat')
+							$('.top_left').css('background-size', '100% 100%');
+						} else if (data.data.total_renqi >= sandeng&& data.data.total_renqi < sideng) {
+							$('.top_left').css('background', 'url(../assets/house/4.png) no-repeat')
+							$('.top_left').css('background-size', '100% 100%');
+						}else if (data.data.total_renqi >= sideng) {
+							$('.top_left').css('background', 'url(../assets/house/4.png) no-repeat')
+							$('.top_left').css('background-size', '100% 100%');
+						}
+						if(data.data.total_renqi<6000){
+							$('.dengji').html(1)
+							var baifen=(data.data.total_renqi-0)/6000*100
+							$('.jindu_jin').css('width',baifen+'%')
+						}else if(data.data.total_renqi>=6000&& data.data.total_renqi < 12000){
+							$('.dengji').html(2)
+							var baifen=(data.data.total_renqi-6000)/6000*100
+							$('.jindu_jin').css('width',baifen+'%')
+						}else if(data.data.total_renqi>=12000&& data.data.total_renqi < 18000){
+							$('.dengji').html(3)
+							var baifen=(data.data.total_renqi-12000)/6000*100
+							$('.jindu_jin').css('width',baifen+'%')
+						}else if(data.data.total_renqi>=18000&& data.data.total_renqi < 24000){
+							$('.dengji').html(4)
+							var baifen=(data.data.total_renqi-18000)/6000*100
+							$('.jindu_jin').css('width',baifen+'%')
+						}else if(data.data.total_renqi>=24000&& data.data.total_renqi < 30000){
+							$('.dengji').html(5)
+							var baifen=(data.data.total_renqi-24000)/6000*100
+							$('.jindu_jin').css('width',baifen+'%')
+						}else if (data.data.total_renqi >= 30000&& data.data.total_renqi < 42000) {
+							$('.dengji').html(6)
+							var baifen=(data.data.total_renqi-30000)/12000*100
+							$('.jindu_jin').css('width',baifen+'%')
+						}else if (data.data.total_renqi >= 42000&& data.data.total_renqi < 54000) {
+							$('.dengji').html(7)
+							var baifen=(data.data.total_renqi-42000)/12000*100
+							$('.jindu_jin').css('width',baifen+'%')
+						}else if (data.data.total_renqi >= 54000&& data.data.total_renqi < 66000) {
+							$('.dengji').html(8)
+							var baifen=(data.data.total_renqi-54000)/12000*100
+							$('.jindu_jin').css('width',baifen+'%')
+						}else if (data.data.total_renqi >= 66000&& data.data.total_renqi < 78000) {
+							$('.dengji').html(9)
+							var baifen=(data.data.total_renqi-66000)/12000*100
+							$('.jindu_jin').css('width',baifen+'%')
+						}else if (data.data.total_renqi >= 78000&& data.data.total_renqi < 90000) {
+							$('.dengji').html(10)
+							var baifen=(data.data.total_renqi-78000)/12000*100
+							$('.jindu_jin').css('width',baifen+'%')
+						}else if (data.data.total_renqi >= 90000&& data.data.total_renqi < 114000) {
+							$('.dengji').html(11)
+							var baifen=(data.data.total_renqi-90000)/24000*100
+							$('.jindu_jin').css('width',baifen+'%')
+						}else if (data.data.total_renqi >= 114000&& data.data.total_renqi < 138000) {
+							$('.dengji').html(12)
+							var baifen=(data.data.total_renqi-114000)/24000*100
+							$('.jindu_jin').css('width',baifen+'%')
+						}else if (data.data.total_renqi >= 138000&& data.data.total_renqi < 162000) {
+							$('.dengji').html(13)
+							var baifen=(data.data.total_renqi-138000)/24000*100
+							$('.jindu_jin').css('width',baifen+'%')
+						}else if (data.data.total_renqi >= 162000&& data.data.total_renqi < 186000) {
+							$('.dengji').html(14)
+							var baifen=(data.data.total_renqi-162000)/24000*100
+							$('.jindu_jin').css('width',baifen+'%')
+						}else if (data.data.total_renqi >= 186000&& data.data.total_renqi < 210000) {
+							$('.dengji').html(15)
+							var baifen=(data.data.total_renqi-186000)/24000*100
+							$('.jindu_jin').css('width',baifen+'%')
+						}else if (data.data.total_renqi >= 210000&& data.data.total_renqi < 258000) {
+							$('.dengji').html(16)
+							var baifen=(data.data.total_renqi-210000)/48000*100
+							$('.jindu_jin').css('width',baifen+'%')
+						}else if (data.data.total_renqi >= 258000&& data.data.total_renqi < 306000) {
+							$('.dengji').html(17)
+							var baifen=(data.data.total_renqi-258000)/48000*100
+							$('.jindu_jin').css('width',baifen+'%')
+						}else if (data.data.total_renqi >= 306000&& data.data.total_renqi < 354000) {
+							$('.dengji').html(18)
+							var baifen=(data.data.total_renqi-306000)/48000*100
+							$('.jindu_jin').css('width',baifen+'%')
+						}else if (data.data.total_renqi >= 354000&& data.data.total_renqi < 402000) {
+							$('.dengji').html(19)
+							var baifen=(data.data.total_renqi-354000)/48000*100
+							$('.jindu_jin').css('width',baifen+'%')
+						}else if (data.data.total_renqi >= 402000&& data.data.total_renqi < 450000) {
+							$('.dengji').html(20)
+							var baifen=(data.data.total_renqi-402000)/48000*100
+							$('.jindu_jin').css('width',baifen+'%')
+						}else if (data.data.total_renqi >= 450000) {
+							$('.dengji').html(20)
+							$('.jindu_jin').css('width','100%')
+						}
+						
+						
+						$('.jinbi_jin').html(data.data.jin_bi);
+						if (data.data.cat) {
+							if (data.data.cat.category[0] == undefined) {
+								$('.cat_one').attr('src', '');
+							} else {
+								$('.cat_one').attr('src', '../assets/cat/' + data.data.cat.category[0] + '.png');
+							}
+							if (data.data.cat.category[1] == undefined) {
+								$('.cat_two').attr('src', '');
+							} else {
+								$('.cat_two').attr('src', '../assets/cat/' + data.data.cat.category[1] + '.png');
+							}
+							if (data.data.cat.category[2] == undefined) {
+								$('.cat_three').attr('src', '');
+							} else {
+								$('.cat_three').attr('src', '../assets/cat/' + data.data.cat.category[2] + '.png');
+							}
+							if (data.data.cat.category[3] == undefined) {
+								$('.cat_four').attr('src', '');
+							} else {
+								$('.cat_four').attr('src', '../assets/cat/' + data.data.cat.category[3] + '.png');
+							}
+
+						}
+						if (data.data.dog) {
+							if (data.data.dog.category[0] == undefined) {
+								$('.dog_one').attr('src', '');
+							} else {
+								$('.dog_one').attr('src', '../assets/dog/' + data.data.dog.category[0] + '.png');
+							}
+							if (data.data.dog.category[1] == undefined) {
+								$('.dog_two').attr('src', '');
+							} else {
+								$('.dog_two').attr('src', '../assets/dog/' + data.data.dog.category[1] + '.png');
+							}
+							if (data.data.dog.category[2] == undefined) {
+								$('.dog_three').attr('src', '');
+							} else {
+								$('.dog_three').attr('src', '../assets/dog/' + data.data.dog.category[2] + '.png');
+							}
+							if (data.data.dog.category[3] == undefined) {
+								$('.dog_four').attr('src', '');
+							} else {
+								$('.dog_four').attr('src', '../assets/dog/' + data.data.dog.category[3] + '.png');
+							}
+						}
+						if (data.data.fish) {
+							if (data.data.fish.category[0] == undefined) {
+								$('.fish_one').attr('src', '');
+							} else {
+								$('.fish_one').attr('src', '../assets/fish/' + data.data.fish.category[0] + '.png');
+							}
+							if (data.data.fish.category[1] == undefined) {
+								$('.fish_two').attr('src', '');
+							} else {
+								$('.fish_two').attr('src', '../assets/fish/' + data.data.fish.category[1] + '.png');
+							}
+							if (data.data.fish.category[2] == undefined) {
+								$('.fish_three').attr('src', '');
+							} else {
+								$('.fish_three').attr('src', '../assets/fish/' + data.data.fish.category[2] + '.png');
+							}
+							if (data.data.fish.category[3] == undefined) {
+								$('.fish_four').attr('src', '');
+							} else {
+								$('.fish_four').attr('src', '../assets/fish/' + data.data.fish.category[3] + '.png');
+							}
+						}
+
+					}
+				}
+			});
+		}
+		// 赠送时点击的li
+		var type = ""
+		$('.zeng_zoon li').click(function() {
+			$(this).addClass('bian')
+			$(this).siblings('li').removeClass('bian');
+			type = $(this).data('type')
+			$('.num').html('0')
+			console.log(type)
+		})
+		$('.zeng_ctn').click(function() {
+			if (!type) {
+				$('.tan').html('请选择礼物');
+				$('.tan').css('display', 'block');
+				$('.tan').fadeOut(2000);
+				return;
+			}
+			var num_num = $('.num').val();
+			if (num_num == 0) {
+				$('.tan').html('请选择数量');
+				$('.tan').css('display', 'block');
+				$('.tan').fadeOut(2000);
+				return;
+			}
+			if (jinbi < 100) {
+				$('.ti_box').show()
+				return;
+			}
+			$.ajax({
+				url: url + "/api.php/interfaces/index/add_house_gift",
+				data: {
+					account_id: localStorage.account_id,
+					zhubo_id: account_id,
+					type: type,
+					num: num_num
+				},
+				dataType: 'json', //服务器返回json格式数据
+				success: function(data) {
+					console.log(data);
+					$('.tan').html(data.msg);
+					$('.tan').css('display', 'block');
+					$('.tan').fadeOut(2000);
+					if (data.code == 1) {
+						$('.zeng_box').hide();
+						$('.zeng_zoon li').removeClass('bian')
+						$('.num').val('0')
+						xuanran();
+						type=''
+					}
+				}
+			});
+		})
+		$('.close').click(function() {
+			$('.zeng_box').hide()
+		})
+		$('.chong').click(function() {
+			window.history.back()
+		})
+		$('.suanle').click(function() {
+			
+			$('.ti_box').hide()
+			
+		})
+		$('.chou').click(function() {
+			$('.zhuan_box').show()
+		})
+		$('.close_chou').click(function() {
+			$('.chou_con').hide()
+			window.location.href = window.location.href;
+		})
+		$('.anniu').click(function() {
+			$('.chou_con').hide()
+			window.location.href = window.location.href;
+		})
+		$('.guan').click(function(){
+			$('.zhuan_box').hide();
+		})
+		$("#lotteryBtn").click(function() {
+			$('.dang').show();
+			console.log(111)
+			var angle = 0
+			var type=''
+			var string_array = ['猫', '狗','鱼'];
+			var act = string_array[Math.floor(Math.random() * string_array.length)];
+			// 抽一次100  暂定
+			if($('.jinbi_jin').html()<1000){
+				$('.ti_box').show()
+				$('.zhuan_box').hide()
+				$('.dang').hide();
+				return;
+			}
+			
+			$.ajax({
+				url: 'https://peak.bestlsw.top/api.php/interfaces/index/get_rate_api',
+				success: function(data) {
+					var res_data = JSON.parse(data)
+					console.log(res_data)
+					if (res_data.data.prize_type == 2) {
+						$('.zoon_img').attr('src', '../assets/chou/cat9.png')
+						$('.songchu').html('9只猫')
+						angle = 0
+					} else if (res_data.data.prize_type == 3) {
+						$('.zoon_img').attr('src', '../assets/chou/dog9.png')
+						$('.songchu').html('9只狗')
+						angle = 45
+					} else if (res_data.data.prize_type == 4) {
+						$('.zoon_img').attr('src', '../assets/chou/fish9.png')
+						$('.songchu').html('9条鱼')
+						angle = 90
+					} else if (res_data.data.prize_type == 5) {
+						$('.zoon_img').attr('src', '../assets/chou/cat52.png')
+						$('.songchu').html('52只猫')
+						angle = 135
+					} else if (res_data.data.prize_type == 6) {
+						$('.zoon_img').attr('src', '../assets/chou/dog52.png')
+						$('.songchu').html('52只狗')
+						angle = 180
+					} else if (res_data.data.prize_type == 7) {
+						$('.zoon_img').attr('src', '../assets/chou/fish52.png')
+						$('.songchu').html('52条鱼')
+						angle = 225
+					} else if (res_data.data.prize_type == 8) {
+						angle = 270
+						
+						console.log(act)
+						if(act=='猫'){
+							var type=1
+							$('.zoon_img').attr('src', '../assets/chou/cat188.png')
+							$('.songchu').html('188只猫')
+						}else if(act=='狗'){
+							var type=2
+							$('.zoon_img').attr('src', '../assets/chou/dog188.png')
+							$('.songchu').html('188只狗')
+						}else if(act=='鱼'){
+							var type=3
+							$('.zoon_img').attr('src', '../assets/chou/fish188.png')
+							$('.songchu').html('188条鱼')
+						}
+						console.log(type)
+					} else if (res_data.data.prize_type == 1) {
+						angle = 315
+						$('.zoon_img').attr('src', '../assets/chou/thanks.png')
+						$('.gongxi').html('很遗憾');
+						$('.succ').html('奖品与您擦肩而过');
+						$('.anniu').attr('src', '../assets/chou/know.png')
+					}
+					
+					$("#lotteryBtn").rotate({ //旋转
+						angle: 0, //角度
+						duration: 6000, //持续时间
+						animateTo: angle + 2160, //angle是图片上各奖项对应的角度，2160是我要让指针旋转6圈。所以最后的结束的角度就是这样子^^
+						callback: function() {
+							// angle=0
+							$('.zhuan_box').hide()
+							$('.chou_con').show()
+							xuanran();
+							$.ajax({
+								url: url + "/api.php/interfaces/index/add_prize",
+								data: {
+									account_id: localStorage.account_id,
+									zhubo_id: account_id,
+									zhong_type: res_data.data.prize_type,
+									type2:type
+								},
+								dataType: 'json', //服务器返回json格式数据
+								success: function(data) {
+									console.log(data);
+									$('.jinbi_jin').html(data.data.remain_jinbi);
+									$('.dang').hide();
+								}
+							});
+						}
+					});
+				}
+			});
+
+		});
+	</script>
+</html>

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" />
+		<meta content="yes" name="apple-mobile-web-app-capable" />
+		<meta content="black" name="apple-mobile-web-app-status-bar-style" />
+		<meta content="telephone=no" name="format-detection" />
+		<meta content="email=no" name="format-detection" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<title>充值</title>
+		<link rel="stylesheet" href="../../libs/css/base.css" />
+		<script type="text/javascript" src="../../libs/js/rem.js"></script>
+		<script type="text/javascript" src="../../libs/js/jquery.min.js"></script>
+		<style>
+			.chargeList {
+				padding: 0.34rem 0.2rem 0;
+			}
+
+			.chargeList .perList {
+				position: relative;
+				height: 1.21rem;
+				border-radius: 0.13rem;
+				margin-bottom: 0.2rem;
+				line-height: 1.21rem;
+				background: #fff url('../../assets/chargeMny/chargeNo.png') no-repeat;
+				background-size: 100% 100%;
+			}
+
+			.chargeList .checkedItem {
+				background: #fff url('../../assets/chargeMny/chargeCheck.png') no-repeat;
+				background-size: 100% 100%;
+			}
+
+			.chargeList .perList .iconImgs {
+				position: relative;
+				top: -3px;
+				display: inline-block;
+				width: 0.582rem;
+				vertical-align: middle;
+				margin-right: 0.2rem;
+				margin-left: 0.35rem;
+			}
+
+			.chargeList .perList .nutsNum {
+				font-family: PingFangSC-Medium;
+				font-size: 0.32rem;
+				color: #4b4b4b;
+				letter-spacing: 0;
+				text-align: left;
+			}
+
+			.chargeList .perList .inviteCode {
+				position: absolute;
+				right: 0;
+				display: inline-block;
+				width: 1.74rem;
+				font-family: PingFangSC-Regular;
+				font-size: 0.4rem;
+				color: #de2512;
+				letter-spacing: 0;
+				text-align: center;
+			}
+
+			.chargeBtn {
+				position: fixed;
+				bottom: 0;
+				height: 1rem;
+				width: 100%;
+				background-image: linear-gradient(239deg, #b83af3 0%, #6950fb 100%);
+				border-radius: 0.08rem 0.08rem 0 0;
+				text-align: center;
+				line-height: 1rem;
+				font-family: PingFangSC-Medium;
+				font-size: 0.3rem;
+				color: #ffffff;
+				letter-spacing: 0.64px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="chargeList">
+			<!-- <div class="perList checkedItem">
+				<img class="iconImgs" src="../../assets/chargeMny/nutsIcon.png" alt="" />
+				<span class="nutsNum">100钻</span>
+				<p class="inviteCode">¥6</p>
+			</div>
+			<div class="perList">
+				<img class="iconImgs" src="../../assets/chargeMny/nutsIcon.png" alt="" />
+				<span class="nutsNum">500钻</span>
+				<p class="inviteCode">¥10</p>
+			</div>
+			<div class="perList">
+				<img class="iconImgs" src="../../assets/chargeMny/nutsIcon.png" alt="" />
+				<span class="nutsNum">600钻</span>
+				<p class="inviteCode">¥15</p>
+			</div> -->
+			<!-- <div class="perList">
+				<img class="iconImgs" src="../../assets/chargeMny/nutsIcon.png" alt="" />
+				<span class="nutsNum">800钻</span>
+				<p class="inviteCode">¥20</p>
+			</div>
+			<div class="perList">
+				<img class="iconImgs" src="../../assets/chargeMny/nutsIcon.png" alt="" />
+				<span class="nutsNum">1000钻</span>
+				<p class="inviteCode">¥30</p>
+			</div>
+			<div class="perList">
+				<img class="iconImgs" src="../../assets/chargeMny/nutsIcon.png" alt="" />
+				<span class="nutsNum">1200钻</span>
+				<p class="inviteCode">¥35</p>
+			</div> -->
+		</div>
+		<button class="chargeBtn" style="border: none;">确定充值</button>
+	</body>
+
+	<script>
+		$(function() {
+			// 充值列表
+			var url = localStorage.yuming
+			$.ajax({
+				url: url + "/api.php/interfaces/index/cz_lst",
+				data: {
+					account_id: localStorage.account_id,
+				},
+				dataType: 'json', //服务器返回json格式数据
+				success: function(data) {
+					// console.log(data);
+					if (data.code == 1) {
+						// 轮播图
+						var pick = data.data.cz_lst
+						var picker = '';
+						$.each(pick, function(i, obj) {
+							picker += '<div class="perList" data-paiid="' + obj.id + '">'
+							picker += '<img class="iconImgs" src="../../assets/chargeMny/nutsIcon.png" alt="" />'
+							picker += '<span class="nutsNum">'
+							picker += obj.diamonds + '钻'
+							picker += '</span>'
+							picker += '<p class="inviteCode">'
+							picker += '¥' + obj.money
+							picker += '</p>'
+							picker += '</div>'
+						})
+						$('.chargeList').html(picker)
+						$('.perList').first().addClass('checkedItem')
+					}
+				}
+			});
+			var paiid = 1
+			$('.chargeList').on('click', '.perList', function() {
+				paiid = $(this).data('paiid')
+				// console.log(paiid)
+				if ($(this).hasClass('checkedItem')) {
+					return false
+				} else {
+					$(this)
+						.siblings()
+						.removeClass('checkedItem')
+						.end()
+						.addClass('checkedItem')
+					var tabName = $(this).text()
+					// return alert('切换至：' + tabName)
+				}
+			})
+			var jsApiParameters = ''
+			var order_sn = ''
+			$('.chargeBtn').click(function() {
+				$('.chargeBtn').attr('disabled', 'disabled')
+				// alert('点击确定充值')
+				$.ajax({
+					url: url + "/api.php/interfaces/index/add_order",
+					data: {
+						account_id: localStorage.account_id,
+						id: paiid
+					},
+					dataType: 'json', //服务器返回json格式数据
+					success: function(data) {
+						// console.log(data);
+						jsApiParameters = data.data.jsApiParameters
+						order_sn = data.data.order_sn
+						// alert(data.data.order_sn)
+						// return;
+						localStorage.setItem("order_sn", order_sn);
+						// console.log(jsApiParameters)
+						if (data.code == 1) {
+							// window.history.back()
+							if (typeof WeixinJSBridge == "undefined") {
+								if (document.addEventListener) {
+									document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+								} else if (document.attachEvent) {
+									document.attachEvent('WeixinJSBridgeReady', jsApiCall);
+									document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+								}
+							} else {
+								jsApiCall();
+							}
+
+						}
+					}
+				});
+
+			})
+			//调用微信JS api 支付
+			function jsApiCall() {
+				WeixinJSBridge.invoke(
+					'getBrandWCPayRequest',
+					$.parseJSON(jsApiParameters),
+					/*
+					        function(res){
+					            WeixinJSBridge.log(res.err_msg);
+					            alert(res.err_code+res.err_desc+res.err_msg);
+					        }*/
+					function(res) {
+						// console.log(res)
+						
+						WeixinJSBridge.log(res.err_msg);
+						if (res.err_msg == "get_brand_wcpay_request:ok") {
+							$('.chargeBtn').attr('disabled', false)
+							
+							// alert(res.err_code+res.err_desc+res.err_msg);
+							// $.ajax({
+							// 	url: url + "/api.php/interfaces/index/order_chax",
+							// 	data: {
+							// 		order_sn: order_sn
+							// 	},
+							// 	dataType: 'json', //服务器返回json格式数据
+							// 	success: function(data) {
+							// 		console.log(data);
+									window.history.back()
+							// 	}
+							// });
+							
+						} else {
+							document.location.reload();
+							//返回跳转到订单详情页面
+							//alert("取消支付");
+							//window.location.href="{:U('Personal/index')}";
+							// window.history.back()
+						}
+					}
+				);
+			}
+		})
+	</script>
+</html>

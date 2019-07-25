@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" />
+		<meta content="yes" name="apple-mobile-web-app-capable" />
+		<meta content="black" name="apple-mobile-web-app-status-bar-style" />
+		<meta content="telephone=no" name="format-detection" />
+		<meta content="email=no" name="format-detection" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<title>榜单</title>
+		<link rel="stylesheet" href="../libs/css/base.css" />
+		<link rel="stylesheet" href="../libs/swiper/swiper.min.css" />
+		<script type="text/javascript" src="../libs/js/rem.js"></script>
+		<style>
+			html {
+				background: #635069;
+			}
+
+			.box {
+				font-family: 'PingFangSC-Regular';
+				padding-top: 0.2rem;
+			}
+
+			.box-content {
+				width: 94%;
+				margin: 0 3%;
+			}
+
+			.swiper-slide {
+				border-radius: 0.08rem;
+			}
+
+			.swiper-slide img {
+				width: 7.02rem;
+				height: 3.31rem;
+				border-radius: 0.1rem;
+			}
+
+			.select-list {
+				margin-top: 0.28rem;
+				font-size: 0.32rem;
+				display: -webkit-box;
+				display: -ms-flexbox;
+				display: flex;
+				justify-content: space-around;
+				color: #fff;
+			}
+
+			.select-list .selected {
+				border-bottom: 4px solid #d01fe0;
+			}
+
+			.footer {
+				width: 100%;
+				height: 1rem;
+				background: #fff;
+				position: fixed;
+				bottom: 0;
+				left: 0;
+				right: 0;
+			}
+
+			.footer nav {
+				padding-top: 0.1rem;
+				display: -webkit-box;
+				display: -ms-flexbox;
+				display: flex;
+				justify-content: space-around;
+				line-height: 1;
+				text-align: center;
+			}
+
+			.footer nav p {
+				color: #989898;
+			}
+
+			.footer .icon {
+				width: 0.49rem;
+				height: 0.49rem;
+			}
+
+			.footer .select-btn p {
+				color: #2b3047;
+			}
+
+			.main {
+				border-top: 1px solid #695f6a;
+				padding-left: 0.7rem;
+				color: #fff;
+				padding-bottom: 0.55rem;
+			}
+
+			.week li {
+				margin: 0.6rem auto;
+			}
+
+			.week .top {
+				width: 0.52rem;
+			}
+
+			.week .photo {
+				width: 0.7rem;
+				height: 0.7rem;
+				display: block;
+				object-fit:cover;
+				/* border-radius: 50%; */
+				/* margin: 0 0.1rem; */
+			}
+
+			.week .user-msg {
+				display: inline-block;
+				font-size: 0.28rem;
+			}
+
+			.week .score {
+				font-size: 0.26rem;
+				color: #bfbfbf;
+			}
+
+			.week .user-num {
+				background: #000;
+				color: #fff;
+				width: 0.4rem;
+				height: 0.4rem;
+				display: inline-block;
+				text-align: center;
+				line-height: 0.4rem;
+				position: relative;
+				top: -0.2rem;
+			}
+			.wrap {
+				position: fixed;
+				top: 0;
+				left: 0;
+				background: rgba(0, 0, 0, 0.7);
+				z-index: 2;
+				width: 100%;
+				height: 100%;
+				display: none;
+			}
+			.ding{
+				position: fixed;
+				left: 0;
+				top: 0;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="box">
+			<!-- 轮播 -->
+			<div class="box-content">
+				<div class="swiper-container">
+					<div class="swiper-wrapper lunbo">
+
+					</div>
+					<div class="swiper-pagination"></div>
+				</div>
+				<!-- 排序 -->
+				<div class="select-list">
+					<div class="week-btn selected">周榜</div>
+					<div class="day-btn">日榜</div>
+					<div class="month-btn">月榜</div>
+				</div>
+			</div>
+			<div class="main">
+				<div class="week">
+					<ul class="main_list">
+						
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div id="outerdiv" class="wrap">
+			<div id="innerdiv" style="position:absolute;">
+				<img id="bigimg" style="border:5px solid #fff;" src="" />
+			</div>
+		</div>
+		<!--尾部 -->
+		<footer class="footer">
+			<nav>
+				<a href="index.html">
+					<img src="../assets/jtw/home.png" alt="" class="icon" />
+					<p>首页</p>
+				</a>
+				<a href="rank.html" class="select-btn">
+					<img src="../assets/jtw/bang-btn.png" alt="" class="icon" />
+					<p>榜单</p>
+				</a>
+				<a href="personal.html">
+					<img src="../assets/jtw/mine.png" alt="" class="icon" />
+					<p>我的</p>
+				</a>
+			</nav>
+		</footer>
+		<script src="../libs/js/jquery.min.js"></script>
+		<script src="../libs/swiper/swiper.min.js"></script>
+		<script>
+			$(function() {
+				// 榜单轮播
+				var url = localStorage.yuming
+				$.ajax({
+					url: url + "/api.php/interfaces/index/bang_carousel_api",
+					data: {
+						// account_id:localStorage.account_id,
+					},
+					dataType: 'json', //服务器返回json格式数据
+					success: function(data) {
+						// console.log(data);
+						if (data.code == 1) {
+							// 轮播图
+							var pick = data.data.carousel
+							var picker = '';
+							$.each(pick, function(i, obj) {
+								picker += '<div class="swiper-slide">'
+								picker += '<img src="' + obj + '">';
+								picker += '</div>'
+							})
+							$('.lunbo').html(picker)
+							my_swiper();
+						}
+					}
+				});
+
+				function my_swiper() {
+					var mySwiper = new Swiper('.swiper-container', {
+						autoplay: {
+							delay: 2500
+						},
+						loop: true, // 循环模式选项
+						speed: 300,
+						pagination: {
+							el: '.swiper-pagination',
+						}
+					})
+				}
+				var page=1
+				var type = 1
+				// 之前是根据下表做判断前三名有奖牌  后面依次有序号  但是上啦加载时重新展示第二页(10个) 下表还是从0开始,所以此方法pass  
+				// 设置一个全局变量b  一个a=1 (因为计算时从一开始计算) 点击三个榜单是让b=0(回到初始值) 在调用的方法里利用循环 b+=a 把b展示出来 
+				var b=0
+				// 点击周榜日榜越帮
+				$('.select-list >div').click(function() {
+					$('.select-list >div').removeClass('selected')
+					$(this).addClass('selected')
+					var bang_type = $('.selected').html()
+					page=1
+					b=0
+					if (bang_type == '周榜') {
+						type = 1
+						page=1
+						bang_list1()
+						
+					} else if (bang_type == '日榜') {
+						type = 2
+						page=1
+						bang_list1()
+						
+					} else if (bang_type == '月榜') {
+						type = 3
+						page=1
+						bang_list1()
+						
+					}
+				})
+				
+				bang_list()
+				// 榜单列表
+				function bang_list() {
+					// 榜单列表
+					$.ajax({
+						url: url + "/api.php/interfaces/index/bang_top",
+						data: {
+							type: type,
+							pagesize:10,
+							page:page
+						},
+						dataType: 'json', //服务器返回json格式数据
+						success: function(data) {
+							console.log(data);
+							if (data.code == 1) {
+								// 列表
+								var pick = data.data.list
+								// 如果没有数据 让'暂无数据展出出来'
+								if(pick.length==0&&page==1){
+									$('.main_list').html('<div class="no_num" style="color: white;text-align: center;margin-top: 1rem;">暂无数据</div>');
+									return;
+								}
+								var picker = '';
+								var a=1
+								
+								$.each(pick, function(i, obj) {
+									// 递加
+									b+=Number(a)
+									// console.log(i+1==1)
+									// 判断i+1是不是前三  不是前三就渲染数字
+									if (b == 1&&page==1) {
+										var add = '<img src="../assets/jtw/top1.png" alt="" class="top" />'
+									} else if (b == 2&&page==1) {
+										var add = '<img src="../assets/jtw/top2.png" alt="" class="top" />'
+									} else if (b == 3&&page==1) {
+										var add = '<img src="../assets/jtw/top3.png" alt="" class="top" />'
+									} else {
+										// var add = '<span class="user-num">' + (i + 1) + '</span>'
+										var add = '<span class="user-num">' + b + '</span>'
+									}
+									
+									
+									picker += '<li>'
+									picker += add
+									picker +='<div style="width:0.7rem;height:0.7rem;border-radius: 50%;overflow:hidden;display:inline-block;margin: 0 0.1rem;">'
+									picker += !obj.avatar ? '<img src="../assets/jtw/head.png" alt="" class="photo" />' : '<img src="' +obj.avatar + '" alt="" class="photo"  />',
+									picker +='</div>'
+									picker += '<div class="user-msg">'
+									picker += '<p>'
+									picker += !obj.nickname ? '微信昵称' : obj.nickname
+									picker += '</p>'
+									picker += '<p class="score">'
+									picker += '魅力值:' + obj.inc_hotnum
+									picker += '</p>'
+									picker += '</div>'
+									picker += '</li>'
+								})
+								$('.main_list').append(picker)
+							}
+						}
+					});
+				}
+				function bang_list1() {
+					// 榜单列表
+					$.ajax({
+						url: url + "/api.php/interfaces/index/bang_top",
+						data: {
+							type: type,
+							pagesize:10,
+							page:page
+						},
+						dataType: 'json', //服务器返回json格式数据
+						success: function(data) {
+							console.log(data);
+							if (data.code == 1) {
+								// 列表
+								var pick = data.data.list
+								// 如果没有数据 让'暂无数据展出出来'
+								if(pick.length==0&&page==1){
+									$('.main_list').html('<div class="no_num" style="color: white;text-align: center;margin-top: 1rem;">暂无数据</div>');
+									return;
+								}
+								var picker = '';
+								var a=1
+								$.each(pick, function(i, obj) {
+									b+=Number(a)
+									console.log(b)
+									// console.log(i+1==1)
+									// 判断i+1是不是前三  不是前三就渲染数字
+									if (b == 1&&page==1) {
+										var add = '<img src="../assets/jtw/top1.png" alt="" class="top" />'
+									} else if (b == 2&&page==1) {
+										var add = '<img src="../assets/jtw/top2.png" alt="" class="top" />'
+									} else if (b == 3&&page==1) {
+										var add = '<img src="../assets/jtw/top3.png" alt="" class="top" />'
+									} else {
+										var add = '<span class="user-num">' + b + '</span>'
+									}
+									picker += '<li>'
+									picker += add
+									picker +='<div style="width:0.7rem;height:0.7rem;border-radius: 50%;overflow:hidden;display:inline-block;margin: 0 0.1rem;">'
+									picker += !obj.avatar ? '<img src="../assets/jtw/head.png" alt="" class="photo" />' : '<img src="' +obj.avatar + '" alt="" class="photo" />',
+									picker +='</div>'
+									picker += '<div class="user-msg">'
+									picker += '<p>'
+									picker += !obj.nickname ? '微信昵称' : obj.nickname
+									picker += '</p>'
+									picker += '<p class="score">'
+									picker += '魅力值:' + obj.inc_hotnum
+									picker += '</p>'
+									picker += '</div>'
+									picker += '</li>'
+								})
+								$('.main_list').html(picker)
+							}
+						}
+					});
+				}
+				var timers = null;
+				$(window).scroll(function() {
+					//当时滚动条离底部60px时开始加载下一页的内容
+					if (($(window).height() + $(window).scrollTop() + 60) >= $(document).height()) {
+						clearTimeout(timers);
+						timers = setTimeout(function() {
+							page++;
+							console.log("第" + page + "页");
+							bang_list();
+						}, 300);
+					}
+				});
+				
+				
+			})
+			
+		</script>
+	</body>
+</html>
