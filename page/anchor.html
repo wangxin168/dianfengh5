@@ -18,10 +18,13 @@
 			html {
         background: #635069;
       }
-
+		body{
+			height: 100vh;
+		}
       .box {
         font-family: 'PingFangSC-Regular';
         padding-top: 0.2rem;
+		height: 100%;
       }
 
       .box-content {
@@ -112,7 +115,7 @@
         position: fixed;
         right: 0.3rem;
         top: 4.8rem;
-        z-index: 100;
+        z-index: 49;
       }
 
       .intro {
@@ -382,6 +385,23 @@
 		  animation-delay: 0s;
 		  animation-iteration-count: 1;
 	  }
+	  .fangda_box{
+	  		  width: 100%;
+	  		  height: 100%;
+	  		  background: #000000;
+	  		  display: none;
+	  		  position: absolute;
+	  		  top:0;
+	  		  left: 0;
+	  		  z-index: 50;
+	  }
+	  .fangda_box img{
+	  		  width: 100%;
+	  		  position: absolute;
+	  		  top: 0;
+	  		  bottom: 0;
+	  		  margin: auto;
+	  }
     </style>
 	</head>
 
@@ -510,6 +530,10 @@
 			<div class="dongxiao">
 				<img src="" alt="">
 			</div>
+			<!-- 点击放大 -->
+			<div class="fangda_box">
+				<img src="" alt="" class="fangda">
+			</div>
 		</div>
 		<script src="../libs/js/jquery.min.js"></script>
 		<script src="../libs/swiper/swiper.min.js"></script>
@@ -574,7 +598,7 @@
 								var pick = data.data.zhubo.lunbo
 								var picker = '';
 								$.each(pick, function(i, obj) {
-									picker += '<div class="swiper-slide">'
+									picker += '<div class="swiper-slide" onclick="img_dian('+i+')">'
 									picker += '<img src="' + obj + '">';
 									picker += '</div>'
 								})
@@ -870,6 +894,22 @@
 						}, 300);
 					}
 				});
+			})
+			function img_dian(xiabiao) {
+				console.log(xiabiao)
+				var xiabiao_z=Number(xiabiao)+1
+				var ul_li = $('.swiper-slide:eq(' + xiabiao_z + ')>img')
+				var ul_li_img = ul_li[0].src
+				$('.fangda_box').show();
+				$('.fangda').attr('src',ul_li_img)
+			}
+			$('.fangda_box').click(function(){
+				$('.fangda_box').hide();
+			})
+			$('.head').click(function(){
+				var ul_li_img = $(this)[0].src
+				$('.fangda_box').show();
+				$('.fangda').attr('src',ul_li_img)
 			})
 		</script>
 	</body>

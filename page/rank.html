@@ -17,10 +17,13 @@
 			html {
 				background: #635069;
 			}
-
+			body{
+				height: 100vh;
+			}
 			.box {
 				font-family: 'PingFangSC-Regular';
 				padding-top: 0.2rem;
+				height: 100%;
 			}
 
 			.box-content {
@@ -145,6 +148,23 @@
 				left: 0;
 				top: 0;
 			}
+			.fangda_box{
+					  width: 100%;
+					  height: 100%;
+					  background: #000000;
+					  display: none;
+					  position: absolute;
+					  top:0;
+					  left: 0;
+					  z-index: 50;
+			}
+			.fangda_box img{
+					  width: 100%;
+					  position: absolute;
+					  top: 0;
+					  bottom: 0;
+					  margin: auto;
+			}
 		</style>
 	</head>
 
@@ -172,12 +192,17 @@
 					</ul>
 				</div>
 			</div>
+			<!-- 点击放大 -->
+			<div class="fangda_box">
+				<img src="" alt="" class="fangda">
+			</div>
 		</div>
 		<div id="outerdiv" class="wrap">
 			<div id="innerdiv" style="position:absolute;">
 				<img id="bigimg" style="border:5px solid #fff;" src="" />
 			</div>
 		</div>
+		
 		<!--尾部 -->
 		<footer class="footer">
 			<nav>
@@ -214,7 +239,7 @@
 							var pick = data.data.carousel
 							var picker = '';
 							$.each(pick, function(i, obj) {
-								picker += '<div class="swiper-slide">'
+								picker += '<div class="swiper-slide" onclick="img_dian('+i+')">'
 								picker += '<img src="' + obj + '">';
 								picker += '</div>'
 							})
@@ -399,7 +424,17 @@
 				
 				
 			})
-			
+			function img_dian(xiabiao) {
+				console.log(xiabiao)
+				var xiabiao_z=Number(xiabiao)+1
+				var ul_li = $('.swiper-slide:eq(' + xiabiao_z + ')>img')
+				var ul_li_img = ul_li[0].src
+				$('.fangda_box').show();
+				$('.fangda').attr('src',ul_li_img)
+			}
+			$('.fangda_box').click(function(){
+				$('.fangda_box').hide();
+			})
 		</script>
 	</body>
 </html>
