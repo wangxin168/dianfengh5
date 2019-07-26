@@ -15,7 +15,7 @@
 		<script type="text/javascript" src="../../libs/js/jquery.min.js"></script>
 		<style>
 			.chargeList {
-				padding: 0.34rem 0.2rem 0;
+				padding: 0.2rem 0.2rem 0;
 			}
 
 			.chargeList .perList {
@@ -77,52 +77,71 @@
 				color: #ffffff;
 				letter-spacing: 0.64px;
 			}
+			.shuru{
+				width: 7.1rem;
+				margin-left: 0.2rem;
+				height: 1rem;
+				padding: 0.1rem;
+				margin-top: 0.2rem;
+			}
 		</style>
 	</head>
 	<body>
-		<div class="chargeList">
-			<!-- <div class="perList checkedItem">
-				<img class="iconImgs" src="../../assets/chargeMny/nutsIcon.png" alt="" />
-				<span class="nutsNum">100钻</span>
-				<p class="inviteCode">¥6</p>
+		<div class="login_box">
+			<input type="text" class="shuru" placeholder="请输入用户ID">
+			<div class="chargeList">
+				
+				<!-- <div class="perList checkedItem">
+					<img class="iconImgs" src="../../assets/chargeMny/nutsIcon.png" alt="" />
+					<span class="nutsNum">100钻</span>
+					<p class="inviteCode">¥6</p>
+				</div>
+				<div class="perList">
+					<img class="iconImgs" src="../../assets/chargeMny/nutsIcon.png" alt="" />
+					<span class="nutsNum">500钻</span>
+					<p class="inviteCode">¥10</p>
+				</div>
+				<div class="perList">
+					<img class="iconImgs" src="../../assets/chargeMny/nutsIcon.png" alt="" />
+					<span class="nutsNum">600钻</span>
+					<p class="inviteCode">¥15</p>
+				</div> -->
+				<!-- <div class="perList">
+					<img class="iconImgs" src="../../assets/chargeMny/nutsIcon.png" alt="" />
+					<span class="nutsNum">800钻</span>
+					<p class="inviteCode">¥20</p>
+				</div>
+				<div class="perList">
+					<img class="iconImgs" src="../../assets/chargeMny/nutsIcon.png" alt="" />
+					<span class="nutsNum">1000钻</span>
+					<p class="inviteCode">¥30</p>
+				</div>
+				<div class="perList">
+					<img class="iconImgs" src="../../assets/chargeMny/nutsIcon.png" alt="" />
+					<span class="nutsNum">1200钻</span>
+					<p class="inviteCode">¥35</p>
+				</div> -->
 			</div>
-			<div class="perList">
-				<img class="iconImgs" src="../../assets/chargeMny/nutsIcon.png" alt="" />
-				<span class="nutsNum">500钻</span>
-				<p class="inviteCode">¥10</p>
-			</div>
-			<div class="perList">
-				<img class="iconImgs" src="../../assets/chargeMny/nutsIcon.png" alt="" />
-				<span class="nutsNum">600钻</span>
-				<p class="inviteCode">¥15</p>
-			</div> -->
-			<!-- <div class="perList">
-				<img class="iconImgs" src="../../assets/chargeMny/nutsIcon.png" alt="" />
-				<span class="nutsNum">800钻</span>
-				<p class="inviteCode">¥20</p>
-			</div>
-			<div class="perList">
-				<img class="iconImgs" src="../../assets/chargeMny/nutsIcon.png" alt="" />
-				<span class="nutsNum">1000钻</span>
-				<p class="inviteCode">¥30</p>
-			</div>
-			<div class="perList">
-				<img class="iconImgs" src="../../assets/chargeMny/nutsIcon.png" alt="" />
-				<span class="nutsNum">1200钻</span>
-				<p class="inviteCode">¥35</p>
-			</div> -->
+			<button class="chargeBtn" style="border: none;">确定充值</button>
+			<div class="tan"></div>
 		</div>
-		<button class="chargeBtn" style="border: none;">确定充值</button>
 	</body>
 
 	<script>
 		$(function() {
+			var searchUrl = window.location.href;
+			var searchData = searchUrl.split("="); //截取 url中的“=”,获得“=”后面的参数
+			var searchText = decodeURI(searchData[1]); //decodeURI解码
+			var change = searchText;
+			console.log(change)
 			// 充值列表
 			var url = localStorage.yuming
+			
 			$.ajax({
 				url: url + "/api.php/interfaces/index/cz_lst",
 				data: {
 					account_id: localStorage.account_id,
+					
 				},
 				dataType: 'json', //服务器返回json格式数据
 				success: function(data) {
@@ -165,6 +184,11 @@
 			})
 			var jsApiParameters = ''
 			var order_sn = ''
+			var otherid = ''
+			$(".shuru").on('input propertychange', function() {
+				// console.log($(this).val())
+				otherid = $(this).val()
+			});
 			$('.chargeBtn').click(function() {
 				$('.chargeBtn').attr('disabled', 'disabled')
 				// alert('点击确定充值')
@@ -172,11 +196,12 @@
 					url: url + "/api.php/interfaces/index/add_order",
 					data: {
 						account_id: localStorage.account_id,
-						id: paiid
+						id: paiid,
+						other_account_id:otherid
 					},
 					dataType: 'json', //服务器返回json格式数据
 					success: function(data) {
-						// console.log(data);
+						console.log(data);
 						jsApiParameters = data.data.jsApiParameters
 						order_sn = data.data.order_sn
 						// alert(data.data.order_sn)
@@ -196,6 +221,11 @@
 								jsApiCall();
 							}
 
+						}else if (data.code == 2) {
+							$('.tan').html(data.msg);
+							$('.tan').css('display', 'block');
+							$('.tan').fadeOut(2000);
+							$('.chargeBtn').attr('disabled', false)
 						}
 					}
 				});

@@ -9,7 +9,7 @@
 		<meta content="email=no" name="format-detection" />
 		<meta name="description" content="" />
 		<meta name="keywords" content="" />
-		<title>主播详情</title>
+		<title>个人详情</title>
 		<link rel="stylesheet" href="../libs/css/base.css" />
 		<link rel="stylesheet" href="../libs/swiper/swiper.min.css" />
 		<link rel="stylesheet" type="text/css" href="../libs/css/animate.css" />
@@ -390,7 +390,7 @@
 	  		  height: 100%;
 	  		  background: #000000;
 	  		  display: none;
-	  		  position: absolute;
+	  		  position: fixed;
 	  		  top:0;
 	  		  left: 0;
 	  		  z-index: 50;
@@ -401,6 +401,58 @@
 	  		  top: 0;
 	  		  bottom: 0;
 	  		  margin: auto;
+	  }
+	  .guding {
+	  	width: 100%;
+	  	overflow-y: hidden;
+	  	/*为了兼容普通PC的浏览器*/
+	  	height: 100%;
+	  	position: fixed;
+	  }
+	  .main {
+	  	border-top: 1px solid #695f6a;
+	  	padding-left: 0.7rem;
+	  	color: #fff;
+	  	padding-bottom: 0.55rem;
+	  }
+	  
+	  .week li {
+	  	margin: 0.6rem auto;
+	  }
+	  
+	  .week .top {
+	  	width: 0.52rem;
+	  }
+	  
+	  .week .photo {
+	  	width: 0.7rem;
+	  	height: 0.7rem;
+	  	display: block;
+	  	object-fit:cover;
+	  	/* border-radius: 50%; */
+	  	/* margin: 0 0.1rem; */
+	  }
+	  
+	  .week .user-msg {
+	  	display: inline-block;
+	  	font-size: 0.28rem;
+	  }
+	  
+	  .week .score {
+	  	font-size: 0.26rem;
+	  	color: #bfbfbf;
+	  }
+	  
+	  .week .user-num {
+	  	background: #000;
+	  	color: #fff;
+	  	width: 0.4rem;
+	  	height: 0.4rem;
+	  	display: inline-block;
+	  	text-align: center;
+	  	line-height: 0.4rem;
+	  	position: relative;
+	  	top: -0.2rem;
 	  }
     </style>
 	</head>
@@ -419,11 +471,13 @@
 				</div>
 				<!-- 排序 -->
 				<div class="select-list">
-					<div class="introduce selected">主播介绍</div>
+					<div class="introduce selected">个人简介</div>
 					<div class="leave-msg">留言</div>
+					<div class="gongxian-msg">贡献榜</div>
 				</div>
 			</div>
 			<img src="../assets/jtw/hishome.png" alt="" class="his-btn" />
+			<!-- 个人简介 -->
 			<div class="jieshao">
 				<div class="box-body">
 					<div class="content">
@@ -457,6 +511,7 @@
 					</div>
 				</div>
 			</div>
+			<!-- 留言 -->
 			<div class="liuyan">
 				<div class="liuyan-box">
 					<ul class="liuyan_ul">
@@ -475,7 +530,25 @@
 					</div>
 				</div>
 			</div>
-
+			<!-- 贡献 -->
+			<div class="main">
+				<div class="week">
+					<ul class="main_list">
+						
+					</ul>
+					<div class="send">
+						<!-- <div class="send-group"> -->
+						<!-- <div class="send-input-box">
+								<input type="text" class="fl input" placeholder="请输入你想说的话" id="liuyan_inp" />
+								<button class="fl send-btn">发送</button>
+							</div> -->
+						<span class="liwu" style="float: right;">
+							<img src="../assets/jtw/liwu.png" alt="" />
+						</span>
+						<!-- </div> -->
+					</div>
+				</div>
+			</div>
 
 			<div class="gift">
 				<div class="close" style="text-align: right;margin-top: 0.1rem;margin-right: 0.2rem;">
@@ -556,7 +629,7 @@
 					location.reload()
 				}
 			}, false)
-			
+
 			$('select').blur(function() {
 				// console.log(111)
 				window.scrollTo(0, document.body.scrollTop + 1);
@@ -571,7 +644,8 @@
 				// 详情页
 				var url = localStorage.yuming
 				xuan()
-				function xuan(){
+
+				function xuan() {
 					$.ajax({
 						url: url + "/api.php/interfaces/index/zhubo_detail",
 						data: {
@@ -587,7 +661,7 @@
 								$('.nickname').html(data.data.zhubo.nickname)
 								// 平台
 								$('.icon').html(data.data.zhubo.platform)
-					
+
 								// 主播id
 								$('.user-id').html('ID：' + data.data.zhubo.account_id)
 								// 点赞数
@@ -598,7 +672,7 @@
 								var pick = data.data.zhubo.lunbo
 								var picker = '';
 								$.each(pick, function(i, obj) {
-									picker += '<div class="swiper-slide" onclick="img_dian('+i+')">'
+									picker += '<div class="swiper-slide" onclick="img_dian(' + i + ')">'
 									picker += '<img src="' + obj + '">';
 									picker += '</div>'
 								})
@@ -621,14 +695,15 @@
 						}
 					})
 				}
-				var page=1
+				var page = 1
+
 				function liuyan_list() {
 					// 留言列表
 					$.ajax({
 						url: url + "/api.php/interfaces/index/message_lst",
 						data: {
-							page:page,
-							pagesize:10,
+							page: page,
+							pagesize: 10,
 							account_id: account_id,
 						},
 						dataType: 'json', //服务器返回json格式数据
@@ -802,12 +877,12 @@
 
 									var ul_wu = $('.gift_song_wu:eq(' + xiabiao + ') img')
 									// console.log(ul_wu[0])
-									if(ul_wu[0]==undefined){
-										
-									}else{
+									if (ul_wu[0] == undefined) {
+
+									} else {
 										var ul_wu_img = ul_wu[0].src
 									}
-									
+
 									$('.dongxiao').show()
 									// $('.dongxiao img').attr('src', ul_wu_img);
 									if (gift_type == 1) {
@@ -853,21 +928,105 @@
 						// }
 					})
 				}
+				function gongxian() {
+					// 榜单列表
+					$.ajax({
+						url: url + "/api.php/interfaces/index/s_gift_detail",
+						data: {
+							pagesize:10,
+							page:page,
+							zhubo_id: account_id,
+						},
+						dataType: 'json', //服务器返回json格式数据
+						success: function(data) {
+							console.log(data);
+							if (data.code == 1) {
+								// 列表
+								var pick = data.data.list
+								
+								// 如果没有数据 让'暂无数据展出出来'
+								if(pick.length==0&&page==1){
+									$('.main_list').html('<div class="no_num" style="color: white;text-align: center;margin-top: 1rem;">暂无数据</div>');
+									return;
+								}
+								var picker = '';
+								// var a=1
+								
+								$.each(pick, function(i, obj) {
+									// 递加
+									// b+=Number(a)
+									// console.log(i+1==1)
+									// 判断i+1是不是前三  不是前三就渲染数字
+									if (obj.sorts == 1) {
+										var add = '<img src="../assets/jtw/top1.png" alt="" class="top" />'
+									} else if (obj.sorts == 2) {
+										var add = '<img src="../assets/jtw/top2.png" alt="" class="top" />'
+									} else if (obj.sorts == 3) {
+										var add = '<img src="../assets/jtw/top3.png" alt="" class="top" />'
+									} else {
+										// var add = '<span class="user-num">' + (i + 1) + '</span>'
+										var add = '<span class="user-num">' + obj.sorts + '</span>'
+									}
+									
+									
+									picker += '<li>'
+									picker += add
+									picker +='<div style="width:0.7rem;height:0.7rem;border-radius: 50%;overflow:hidden;display:inline-block;margin: 0 0.1rem;">'
+									picker += !obj.avatar ? '<img src="../assets/jtw/head.png" alt="" class="photo" />' : '<img src="' +obj.avatar + '" alt="" class="photo"  />',
+									picker +='</div>'
+									picker += '<div class="user-msg">'
+									picker += '<p>'
+									picker += !obj.nickname ? '微信昵称' : obj.nickname
+									picker += '</p>'
+									picker += '<p class="score">'
+									picker += obj.total_price
+									picker += '</p>'
+									picker += '</div>'
+									picker += '</li>'
+								})
+								$('.main_list').append(picker)
+							}
+						}
+					});
+				}
+				var gongxian_num=''
 				$('.introduce').click(function() {
 					if ($(this).hasClass('selected')) {
 						return
 					}
-					$('.select-list >div').toggleClass('selected')
+					// $('.select-list >div').toggleClass('selected')
+					$(this).addClass('selected')
+					gongxian_num=0
+					$(this).siblings().removeClass('selected')
 					$('.liuyan').hide()
 					$('.jieshao').show()
+					$('.main').hide()
 				})
 				$('.leave-msg').click(function() {
 					if ($(this).hasClass('selected')) {
 						return
 					}
-					$('.select-list >div').toggleClass('selected')
+					// $('.select-list >div').toggleClass('selected')
+					gongxian_num=0
+					$(this).addClass('selected')
+					$(this).siblings().removeClass('selected')
 					$('.jieshao').hide()
 					$('.liuyan').show()
+					$('.main').hide()
+				})
+				
+				$('.gongxian-msg').click(function() {
+					if ($(this).hasClass('selected')) {
+						return
+					}
+					// $('.select-list >div').toggleClass('selected')
+					gongxian_num=1
+					$(this).addClass('selected')
+					$(this).siblings().removeClass('selected')
+					$('.jieshao').hide()
+					$('.liuyan').hide()
+					$('.main').show()
+					gongxian();
 				})
 				$('.close').click(function() {
 					$('.gift').slideUp()
@@ -886,30 +1045,47 @@
 				$(window).scroll(function() {
 					//当时滚动条离底部60px时开始加载下一页的内容
 					if (($(window).height() + $(window).scrollTop() + 60) >= $(document).height()) {
-						clearTimeout(timers);
-						timers = setTimeout(function() {
-							page++;
-							console.log("第" + page + "页");
-							liuyan_list();
-						}, 300);
+						if(gongxian_num=1){
+							clearTimeout(timers);
+							timers = setTimeout(function() {
+								page++;
+								console.log("第" + page + "页");
+								gongxian();
+							}, 300);
+						}else{
+							clearTimeout(timers);
+							timers = setTimeout(function() {
+								page++;
+								console.log("第" + page + "页");
+								liuyan_list();
+							}, 300);
+						}
 					}
+					
 				});
 			})
+
 			function img_dian(xiabiao) {
 				console.log(xiabiao)
-				var xiabiao_z=Number(xiabiao)+1
+				var xiabiao_z = Number(xiabiao) + 1
 				var ul_li = $('.swiper-slide:eq(' + xiabiao_z + ')>img')
 				var ul_li_img = ul_li[0].src
 				$('.fangda_box').show();
-				$('.fangda').attr('src',ul_li_img)
+				$('.fangda').attr('src', ul_li_img)
+				$('meta').attr('content', 'width=device-width,initial-scale=1.0,maximum-scale=2.0,user-scalable=yes')
+				$('body').addClass('guding');
 			}
-			$('.fangda_box').click(function(){
+			$('.fangda_box').click(function() {
 				$('.fangda_box').hide();
+				$('meta').attr('content', 'width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no')
+				$('body').removeClass('guding');
 			})
-			$('.head').click(function(){
+			$('.head').click(function() {
 				var ul_li_img = $(this)[0].src
 				$('.fangda_box').show();
-				$('.fangda').attr('src',ul_li_img)
+				$('.fangda').attr('src', ul_li_img)
+				$('meta').attr('content', 'width=device-width,initial-scale=1.0,maximum-scale=2.0,user-scalable=yes')
+				$('body').addClass('guding');
 			})
 		</script>
 	</body>

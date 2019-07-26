@@ -113,6 +113,7 @@
         position: absolute;
         top: 0;
         left: 0;
+		
       }
 
       .lists .sign {
@@ -197,7 +198,7 @@
 		  height: 100%;
 		  background: #000000;
 		  display: none;
-		  position: absolute;
+		  position: fixed;
 		  top:0;
 		  left: 0;
 		  z-index: 50;
@@ -208,6 +209,13 @@
 		  top: 0;
 		  bottom: 0;
 		  margin: auto;
+	  }
+	  .guding {
+	  	width: 100%;
+	  	overflow-y: hidden;
+	  	/*为了兼容普通PC的浏览器*/
+	  	height: 100%;
+	  	position: fixed;
 	  }
     </style>
 	</head>
@@ -522,9 +530,13 @@
 				var ul_li_img = ul_li[0].src
 				$('.fangda_box').show();
 				$('.fangda').attr('src',ul_li_img)
+				$('meta').attr('content','width=device-width,initial-scale=1.0,maximum-scale=2.0,user-scalable=yes')
+				$('body').addClass('guding');
 			}
 			$('.fangda_box').click(function(){
 				$('.fangda_box').hide();
+				$('meta').attr('content','width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no')
+				$('body').removeClass('guding');
 			})
 		</script>
 	</body>

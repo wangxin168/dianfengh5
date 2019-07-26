@@ -115,8 +115,17 @@
 			.week .user-msg {
 				display: inline-block;
 				font-size: 0.28rem;
+				width: 5rem;
+				overflow: hidden;
+				text-overflow:ellipsis;
+				white-space: nowrap;
 			}
-
+			.week .user-msg p{
+				width: 100%;
+				overflow: hidden;
+				text-overflow:ellipsis;
+				white-space: nowrap;
+			}
 			.week .score {
 				font-size: 0.26rem;
 				color: #bfbfbf;
@@ -153,7 +162,7 @@
 					  height: 100%;
 					  background: #000000;
 					  display: none;
-					  position: absolute;
+					  position: fixed;
 					  top:0;
 					  left: 0;
 					  z-index: 50;
@@ -164,6 +173,13 @@
 					  top: 0;
 					  bottom: 0;
 					  margin: auto;
+			}
+			.guding {
+				width: 100%;
+				overflow-y: hidden;
+				/*为了兼容普通PC的浏览器*/
+				height: 100%;
+				position: fixed;
 			}
 		</style>
 	</head>
@@ -183,6 +199,7 @@
 					<div class="week-btn selected">周榜</div>
 					<div class="day-btn">日榜</div>
 					<div class="month-btn">月榜</div>
+					<div class="shenhao-btn">神豪榜</div>
 				</div>
 			</div>
 			<div class="main">
@@ -267,10 +284,11 @@
 				// 设置一个全局变量b  一个a=1 (因为计算时从一开始计算) 点击三个榜单是让b=0(回到初始值) 在调用的方法里利用循环 b+=a 把b展示出来 
 				var b=0
 				// 点击周榜日榜越帮
+				var bang_type=''
 				$('.select-list >div').click(function() {
 					$('.select-list >div').removeClass('selected')
 					$(this).addClass('selected')
-					var bang_type = $('.selected').html()
+					bang_type = $('.selected').html()
 					page=1
 					b=0
 					if (bang_type == '周榜') {
@@ -287,7 +305,10 @@
 						type = 3
 						page=1
 						bang_list1()
-						
+					}else if (bang_type == '神豪榜') {
+						page=1
+						shenhao()
+						$('.main_list').html('');
 					}
 				})
 				
@@ -409,16 +430,88 @@
 						}
 					});
 				}
+				function shenhao() {
+					// 榜单列表
+					$.ajax({
+						url: url + "/api.php/interfaces/index/shen_top",
+						data: {
+							pagesize:10,
+							page:page
+						},
+						dataType: 'json', //服务器返回json格式数据
+						success: function(data) {
+							console.log(data);
+							if (data.code == 1) {
+								// 列表
+								var pick = data.data.list
+								
+								// 如果没有数据 让'暂无数据展出出来'
+								if(pick.length==0&&page==1){
+									$('.main_list').html('<div class="no_num" style="color: white;text-align: center;margin-top: 1rem;">暂无数据</div>');
+									return;
+								}
+								var picker = '';
+								// var a=1
+								
+								$.each(pick, function(i, obj) {
+									// 递加
+									// b+=Number(a)
+									// console.log(i+1==1)
+									// 判断i+1是不是前三  不是前三就渲染数字
+									if (obj.sorts == 1) {
+										var add = '<img src="../assets/jtw/top1.png" alt="" class="top" />'
+									} else if (obj.sorts == 2) {
+										var add = '<img src="../assets/jtw/top2.png" alt="" class="top" />'
+									} else if (obj.sorts == 3) {
+										var add = '<img src="../assets/jtw/top3.png" alt="" class="top" />'
+									} else {
+										// var add = '<span class="user-num">' + (i + 1) + '</span>'
+										var add = '<span class="user-num">' + obj.sorts + '</span>'
+									}
+									
+									
+									picker += '<li>'
+									picker += add
+									picker +='<div style="width:0.7rem;height:0.7rem;border-radius: 50%;overflow:hidden;display:inline-block;margin: 0 0.1rem;">'
+									picker += !obj.avatar ? '<img src="../assets/jtw/head.png" alt="" class="photo" />' : '<img src="' +obj.avatar + '" alt="" class="photo"  />',
+									picker +='</div>'
+									picker += '<div class="user-msg">'
+									picker += '<p>'
+									picker += !obj.nickname ? '微信昵称' : obj.nickname
+									picker += '</p>'
+									picker += '<p class="score">'
+									picker += obj.total_price
+									picker += '</p>'
+									picker += '</div>'
+									picker += '</li>'
+								})
+								$('.main_list').append(picker)
+							}
+						}
+					});
+				}
+				
 				var timers = null;
 				$(window).scroll(function() {
 					//当时滚动条离底部60px时开始加载下一页的内容
 					if (($(window).height() + $(window).scrollTop() + 60) >= $(document).height()) {
-						clearTimeout(timers);
-						timers = setTimeout(function() {
-							page++;
-							console.log("第" + page + "页");
-							bang_list();
-						}, 300);
+						if (bang_type == '神豪榜') {
+							clearTimeout(timers);
+							timers = setTimeout(function() {
+								page++;
+								console.log("第" + page + "页");
+								shenhao()
+							}, 300);
+							
+						}else{
+							clearTimeout(timers);
+							timers = setTimeout(function() {
+								page++;
+								console.log("第" + page + "页");
+								bang_list();
+							}, 300);
+						}
+						
 					}
 				});
 				
@@ -431,9 +524,13 @@
 				var ul_li_img = ul_li[0].src
 				$('.fangda_box').show();
 				$('.fangda').attr('src',ul_li_img)
+				$('meta').attr('content','width=device-width,initial-scale=1.0,maximum-scale=2.0,user-scalable=yes')
+				$('body').addClass('guding');
 			}
 			$('.fangda_box').click(function(){
 				$('.fangda_box').hide();
+				$('meta').attr('content','width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no')
+				$('body').removeClass('guding');
 			})
 		</script>
 	</body>
